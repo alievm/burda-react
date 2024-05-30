@@ -11,12 +11,22 @@
     color: var(--primaryColor);
 }
 
+
 .css-1sdt58x {
 border-right-width: 0px !important;
 }
 
 .card-currency {
     background-color: var(--primaryColor);
+}
+
+.calendar-section::-webkit-scrollbar {
+width: 0px;
+}
+
+.ps-sidebar-root {
+    position: sticky !important;
+    top: 0 !important;
 }
 
 .ps-sidebar-container{

@@ -33,6 +33,7 @@ const Sidebar = ({
                  }) => {
     return (
         <ProSidebar
+            className="z-[999]"
             collapsed={collapsed}
             toggled={toggled}
             onToggle={handleToggleSidebar}
@@ -170,25 +171,25 @@ const Sidebar = ({
 
             {/* Footer */}
 
-            {/*{collapsed ? (*/}
-            {/*    <div*/}
-            {/*        className="flex flex-col mx-auto px-4  pb-4 text-sm font-semibold text-center text-white rounded-md  bg-white bg-opacity-10  max-w-[58px]">*/}
-            {/*        <div*/}
-            {/*            className="flex gap-1.5 justify-center  mt-5 text-white rounded-md shadow-lg leading-[130%]">*/}
-            {/*            <BsFillTelephoneForwardFill size="17" />*/}
-            {/*        </div>*/}
-            {/*    </div>*/}
-            {/*) : (*/}
-            {/*    <div*/}
-            {/*        className="flex flex-col mt-7 mx-auto px-4 pt-5 pb-4 text-sm font-semibold text-center text-white rounded-md bg-white bg-opacity-10 max-w-[208px]">*/}
-            {/*        <div className="text-base tracking-normal leading-6">Call Centre</div>*/}
-            {/*        <div className="mt-1.5 font-medium leading-[129%]">+998 90 909 90 90</div>*/}
-            {/*        <Button*/}
-            {/*            className="flex bg-[#012C6E] gap-1.5 justify-center items-center py-3 pr-6 pl-5 mt-5 text-white rounded-md shadow-lg leading-[130%]">*/}
-            {/*            <BsFillTelephoneForwardFill size="13" />  <div className="font-medium capitalize">Telefon Qilish</div>*/}
-            {/*        </Button>*/}
-            {/*    </div>*/}
-            {/*)}*/}
+            {collapsed ? (
+                <div
+                    className="flex flex-col mx-auto px-4  pb-4 text-sm font-semibold text-center text-white rounded-md  bg-white bg-opacity-10  max-w-[58px]">
+                    <div
+                        className="flex gap-1.5 justify-center  mt-5 text-white rounded-md shadow-lg leading-[130%]">
+                        <BsFillTelephoneForwardFill size="17" />
+                    </div>
+                </div>
+            ) : (
+                <div
+                    className="flex flex-col mt-7 mx-auto px-4 pt-5 pb-4 text-sm font-semibold text-center text-white rounded-md bg-white bg-opacity-10 max-w-[208px]">
+                    <div className="text-base tracking-normal leading-6">Call Centre</div>
+                    <div className="mt-1.5 font-medium leading-[129%]">+998 90 909 90 90</div>
+                    <Button
+                        className="flex bg-[#012C6E] gap-1.5 justify-center items-center py-3 pr-6 pl-5 mt-5 text-white rounded-md shadow-lg leading-[130%]">
+                        <BsFillTelephoneForwardFill size="13" />  <div className="font-medium capitalize">Позвонить</div>
+                    </Button>
+                </div>
+            )}
 
 
         </ProSidebar>

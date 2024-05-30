@@ -1,12 +1,126 @@
 import React, {useState, Fragment} from 'react';
-import ListBox from "./components/ListBox.jsx";
-import { Select, Option } from "@material-tailwind/react";
+import { Option } from "@material-tailwind/react";
 import {CurrencyCard} from "./components/CurrencyCard.jsx";
-import Highcharts from "highcharts";
-import HighchartsReact from "highcharts-react-official";
+import "react-day-picker/dist/style.css";
 import {chartConfig} from "../../utils/chartConfig.js";
+import { ru } from "date-fns/locale";
 import Chart from 'react-apexcharts'
 import {Listbox, Transition} from "@headlessui/react";
+import { DayPicker } from "react-day-picker";
+import {Calendar, Select, Table, Tabs} from "antd";
+
+
+const dataSource1 = [
+    {
+        key: '1',
+        name: 'John Brown',
+        age: 32,
+        address: 'New York No. 1 Lake Park',
+    },
+    {
+        key: '2',
+        name: 'Jim Green',
+        age: 42,
+        address: 'London No. 1 Lake Park',
+    }, {
+        key: '2',
+        name: 'Jim Green',
+        age: 42,
+        address: 'London No. 1 Lake Park',
+    }, {
+        key: '2',
+        name: 'Jim Green',
+        age: 42,
+        address: 'London No. 1 Lake Park',
+    },
+    {
+        key: '2',
+        name: 'Jim Green',
+        age: 42,
+        address: 'London No. 1 Lake Park',
+    },
+];
+
+const columns1 = [
+    {
+        title: 'Name',
+        dataIndex: 'name',
+        key: 'name',
+        fixed: 'left',
+    },
+    {
+        title: 'Age',
+        dataIndex: 'age',
+        key: 'age',
+    },
+    {
+        title: 'Address',
+        dataIndex: 'address',
+        key: 'address',
+    },
+    {
+        title: 'Address',
+        dataIndex: 'address',
+        key: 'address',
+    },
+    {
+        title: 'Address',
+        dataIndex: 'address',
+        key: 'address',
+    },
+    {
+        title: 'Address',
+        dataIndex: 'address',
+        key: 'address',
+    },
+    {
+        title: 'Address',
+        dataIndex: 'address',
+        key: 'address',
+    },    {
+        title: 'Address',
+        dataIndex: 'address',
+        key: 'address',
+    },    {
+        title: 'Address',
+        dataIndex: 'address',
+        key: 'address',
+    },
+];
+
+const dataSource2 = [
+    {
+        key: '1',
+        name: 'Joe Black',
+        age: 32,
+        address: 'Sidney No. 1 Lake Park',
+    },
+    {
+        key: '2',
+        name: 'Jim Red',
+        age: 32,
+        address: 'London No. 2 Lake Park',
+    },
+];
+
+const columns2 = [
+    {
+        title: 'Name',
+        dataIndex: 'name',
+        key: 'name',
+    },
+    {
+        title: 'Age',
+        dataIndex: 'age',
+        key: 'age',
+    },
+    {
+        title: 'Address',
+        dataIndex: 'address',
+        key: 'address',
+    },
+];
+
 
 const graphDropdown = [
     { name: "Kunlik" },
@@ -18,9 +132,11 @@ const resultDropdown = [{ name: "To'liq natija" }, { name: "Chorlik natija" }];
 
 const DropDowns = ({ list }) => {
     const [selected, setSelected] = useState(list[0]);
+
+
     return (
         <Listbox value={selected} onChange={setSelected}>
-            <div className="relative mt-1">
+            <div className="relative mt-1 ">
                 <Listbox.Button className="py-2.5 px-2 border border-[#E7E7E7] flex justify-center items-center gap-1 rounded text-sm text-[#637381] font-normal">
                     <span className="block truncate">{selected.name}</span>{" "}
                     <svg
@@ -78,7 +194,14 @@ const DropDowns = ({ list }) => {
 };
 
 const Homepage = () => {
+    const [selectedDate, setSelectedDate] = useState();
+    const onPanelChange = (value, mode) => {
+        console.log(value.format('YYYY-MM-DD'), mode);
+    };
 
+    const onChange = (key) => {
+        console.log(key);
+    };
     const options = {
         chart: {
             type: "pie",
@@ -157,61 +280,72 @@ const Homepage = () => {
 
     return (
         <div className="px-10">
-            <h1 className="text-xl title font-extrabold tracking-normal text-sky-900  py-10">
+            <h1 className="text-xl title font-extrabold leading-tight text-sky-900  py-5">
                 Годовые результаты наличия сырья на складе
             </h1>
             <div className="grid lg:grid-cols-2 grid-cols-1 gap-4">
                 <div className="grid place-items-center grid-cols-2 gap-4">
+                    <Select className="w-full h-12"
+                            suffixIcon={<img
+                                loading="lazy"
+                                src="https://cdn.builder.io/api/v1/image/assets/TEMP/785a626fdfb2d59d6c39f74656d6dff3c35546bec934a14c5e9c9c305595d0b4?apiKey=0e60d26ffe404316aa35b6241738714a&"
+                                alt=""
+                                className="w-full aspect-square max-w-[24px]"
+                            />}
+                            defaultValue="lucy"
+                            options={[
+                                {value: 'jack', label: 'Jack'},
+                                {value: 'lucy', label: 'Выберите основной раздел:'},
+                                {value: 'Yiminghe', label: 'yiminghe'},
+                                { value: 'disabled', label: 'Disabled', disabled: true },
+                        ]}
+                    />
                     <Select
-                        label="Выберите основной раздел:"
-                        color="blue"
-                        animate={{
-                            mount: {y: 0},
-                            unmount: {y: 25},
-                        }}
-                    >
-                        <Option>Material Tailwind HTML</Option>
-                        <Option>Material Tailwind React</Option>
-                        <Option>Material Tailwind Vue</Option>
-                        <Option>Material Tailwind Angular</Option>
-                        <Option>Material Tailwind Svelte</Option>
-                    </Select> <Select color="blue"
-                    label="Выберите вид:"
-                    animate={{
-                        mount: {y: 0},
-                        unmount: {y: 25},
-                    }}
-                >
-                    <Option>Material Tailwind HTML</Option>
-                    <Option>Material Tailwind React</Option>
-                    <Option>Material Tailwind Vue</Option>
-                    <Option>Material Tailwind Angular</Option>
-                    <Option>Material Tailwind Svelte</Option>
-                </Select> <Select color="blue"
-                    label="Выберите наименование товара:"
-                    animate={{
-                        mount: {y: 0},
-                        unmount: {y: 25},
-                    }}
-                >
-                    <Option>Material Tailwind HTML</Option>
-                    <Option>Material Tailwind React</Option>
-                    <Option>Material Tailwind Vue</Option>
-                    <Option>Material Tailwind Angular</Option>
-                    <Option>Material Tailwind Svelte</Option>
-                </Select> <Select color="blue"
-                    label="Выберите категорию:"
-                    animate={{
-                        mount: {y: 0},
-                        unmount: {y: 25},
-                    }}
-                >
-                    <Option>Material Tailwind HTML</Option>
-                    <Option>Material Tailwind React</Option>
-                    <Option>Material Tailwind Vue</Option>
-                    <Option>Material Tailwind Angular</Option>
-                    <Option>Material Tailwind Svelte</Option>
-                </Select>
+                        suffixIcon={<img
+                            loading="lazy"
+                            src="https://cdn.builder.io/api/v1/image/assets/TEMP/785a626fdfb2d59d6c39f74656d6dff3c35546bec934a14c5e9c9c305595d0b4?apiKey=0e60d26ffe404316aa35b6241738714a&"
+                            alt=""
+                            className="w-full aspect-square max-w-[24px]"
+                        />}
+                        defaultValue="lucy"
+                        className="w-full h-12"
+                        options={[
+                            { value: 'jack', label: 'Jack' },
+                            { value: 'lucy', label: 'Выберите вид:' },
+                            { value: 'Yiminghe', label: 'yiminghe' },
+                            { value: 'disabled', label: 'Disabled', disabled: true },
+                        ]}
+                    /> <Select
+                    suffixIcon={<img
+                        loading="lazy"
+                        src="https://cdn.builder.io/api/v1/image/assets/TEMP/785a626fdfb2d59d6c39f74656d6dff3c35546bec934a14c5e9c9c305595d0b4?apiKey=0e60d26ffe404316aa35b6241738714a&"
+                        alt=""
+                        className="w-full aspect-square max-w-[24px]"
+                    />}
+                    defaultValue="lucy"
+                    className="w-full h-12"
+                    options={[
+                        { value: 'jack', label: 'Jack' },
+                        { value: 'lucy', label: 'Выберите наименование товара:' },
+                        { value: 'Yiminghe', label: 'yiminghe' },
+                        { value: 'disabled', label: 'Disabled', disabled: true },
+                    ]}
+                /> <Select
+                    suffixIcon={<img
+                        loading="lazy"
+                        src="https://cdn.builder.io/api/v1/image/assets/TEMP/785a626fdfb2d59d6c39f74656d6dff3c35546bec934a14c5e9c9c305595d0b4?apiKey=0e60d26ffe404316aa35b6241738714a&"
+                        alt=""
+                        className="w-full aspect-square max-w-[24px]"
+                    />}
+                    defaultValue="lucy"
+                    className="w-full h-12"
+                    options={[
+                        { value: 'jack', label: 'Jack' },
+                        { value: 'lucy', label: 'Выберите категорию:' },
+                        { value: 'Yiminghe', label: 'yiminghe' },
+                        { value: 'disabled', label: 'Disabled', disabled: true },
+                    ]}
+                />
                 </div>
 
 
@@ -223,39 +357,138 @@ const Homepage = () => {
                         </div>
                     </main>
             </div>
-            <div className="grd grid-cols-2">
+            <div className="">
                 <div
-                    className="px-4 py-4 bg-white flex-col sm:col-span-2 w-full max-h-64 xl:col-span-6 xl:row-start-2 lg:row-start-3 rounded-md border border-[#E7E7E7] ">
-                    <div className="flex flex-col justify-between">
-                        <div className="flex items-center justify-between ">
-                  <span className="text-[#212B36] text-base font-semibold -tracking-[0.15px] whitespace-nowrap">
-                  Ishchilarning ishlashi
-                  </span>
-                            <div className="sm:flex gap-2 items-center hidden">
-                    <span className="text-sm font-medium text-[#212B36] -tracking-[0.15px] cursor-pointer">
-                      Kunlik
-                    </span>
-                                <span className="text-[#637381] text-sm font-medium -tracking-[0.15px] cursor-pointer">
-                      Haftalik
-                    </span>
-                                <span className="text-[#637381] text-sm font-medium -tracking-[0.15px] cursor-pointer">
-                      Oylik
-                    </span>
-                                <span className="text-[#637381] text-sm font-medium -tracking-[0.15px] cursor-pointer">
-                      Yillik
-                    </span>
-                            </div>
-                            <div className=" block sm:hidden">
-                                <DropDowns list={graphDropdown}/>
+                    className="px-4 grid overflow-hidden mt-7 grid-cols-1 lg:grid-cols-2 py-4  bg-white flex-col sm:col-span-2 w-full max-h-96 xl:col-span-6 xl:row-start-2 lg:row-start-3 rounded-md border border-[#E7E7E7] ">
+                    <div className="flex mx-auto justify-between overflow-hidden">
+                        <Chart {...chartConfig} />
+                    </div>
+                    {/*Second part*/}
+                    <div>
+                        <div className="p-5 bg-white rounded-md border border-sky-100 border-solid max-w-full">
+                            <div className="block w-full lg:flex gap-5 max-md:flex-col max-md:gap-0">
+                                <div className="flex flex-col ml-5 w-full lg:w-1/3 max-md:ml-0 max-md:w-full">
+                                    <div className="flex flex-col leading-[150%]">
+                                        <div
+                                            className="flex gap-5 justify-between pr-2.5 pb-1.5 text-black whitespace-nowrap">
+                                            <div className="flex flex-col">
+                                                <div className="text-xl font-semibold">124,854</div>
+                                                <div className="text-base">Статистика</div>
+                                            </div>
+                                            <div
+                                                className="flex justify-center items-center px-3 w-11 h-11 bg-[#012C6E] rounded-md shadow-sm">
+                                                <img
+                                                    loading="lazy"
+                                                    src="https://cdn.builder.io/api/v1/image/assets/TEMP/741155f4680f989c00d90cb084886ba61b702123a198615f6bf3ed3c336741f7?apiKey=0e60d26ffe404316aa35b6241738714a&"
+                                                    className="w-full aspect-square"
+                                                />
+                                            </div>
+                                        </div>
+                                        <div className="flex gap-3 mt-3 text-sm text-slate-400">
+                                            <div className="flex gap-2 whitespace-nowrap">
+                                                <img
+                                                    loading="lazy"
+                                                    src="https://cdn.builder.io/api/v1/image/assets/TEMP/704d4c5bc15f5ee20b72bad2a2178494e97411d2d95773eca4f268f53d21c59d?apiKey=0e60d26ffe404316aa35b6241738714a&"
+                                                    className="shrink-0 self-start w-5 aspect-square"
+                                                />
+                                                <div>7.2</div>
+                                            </div>
+                                            <div className="flex-1">+1.51%</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="flex flex-col ml-5 w-full lg:w-1/3 max-md:ml-0 max-md:w-full">
+                                    <div className="flex flex-col leading-[150%]">
+                                        <div
+                                            className="flex gap-5 justify-between pr-2.5 pb-1.5 text-black whitespace-nowrap">
+                                            <div className="flex flex-col">
+                                                <div className="text-xl font-semibold">124,854</div>
+                                                <div className="text-base">Статистика</div>
+                                            </div>
+                                            <div
+                                                className="flex justify-center items-center px-3 w-11 h-11 bg-[#012C6E] rounded-md shadow-sm">
+                                                <img
+                                                    loading="lazy"
+                                                    src="https://cdn.builder.io/api/v1/image/assets/TEMP/741155f4680f989c00d90cb084886ba61b702123a198615f6bf3ed3c336741f7?apiKey=0e60d26ffe404316aa35b6241738714a&"
+                                                    className="w-full aspect-square"
+                                                />
+                                            </div>
+                                        </div>
+                                        <div className="flex gap-3 mt-3 text-sm text-slate-400">
+                                            <div className="flex gap-2 whitespace-nowrap">
+                                                <img
+                                                    loading="lazy"
+                                                    src="https://cdn.builder.io/api/v1/image/assets/TEMP/704d4c5bc15f5ee20b72bad2a2178494e97411d2d95773eca4f268f53d21c59d?apiKey=0e60d26ffe404316aa35b6241738714a&"
+                                                    className="shrink-0 self-start w-5 aspect-square"
+                                                />
+                                                <div>7.2</div>
+                                            </div>
+                                            <div className="flex-1">+1.51%</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="flex flex-col ml-5 w-full lg:w-1/3 max-md:ml-0 max-md:w-full">
+                                    <div className="flex flex-col leading-[150%]">
+                                        <div
+                                            className="flex gap-5 justify-between pr-2.5 pb-1.5 text-black whitespace-nowrap">
+                                            <div className="flex flex-col">
+                                                <div className="text-xl font-semibold">124,854</div>
+                                                <div className="text-base">Статистика</div>
+                                            </div>
+                                            <div
+                                                className="flex justify-center items-center px-3 w-11 h-11 bg-[#012C6E] rounded-md shadow-sm">
+                                                <img
+                                                    loading="lazy"
+                                                    src="https://cdn.builder.io/api/v1/image/assets/TEMP/741155f4680f989c00d90cb084886ba61b702123a198615f6bf3ed3c336741f7?apiKey=0e60d26ffe404316aa35b6241738714a&"
+                                                    className="w-full aspect-square"
+                                                />
+                                            </div>
+                                        </div>
+                                        <div className="flex gap-3 mt-3 text-sm text-slate-400">
+                                            <div className="flex gap-2 whitespace-nowrap">
+                                                <img
+                                                    loading="lazy"
+                                                    src="https://cdn.builder.io/api/v1/image/assets/TEMP/704d4c5bc15f5ee20b72bad2a2178494e97411d2d95773eca4f268f53d21c59d?apiKey=0e60d26ffe404316aa35b6241738714a&"
+                                                    className="shrink-0 self-start w-5 aspect-square"
+                                                />
+                                                <div>7.2</div>
+                                            </div>
+                                            <div className="flex-1">+1.51%</div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <div className="flex justify-between">
-                            <div className=" w-full  h-full">
-                            </div>
+                        {/*<DayPicker  locale={ru} mode="default" selected={selectedDate} onSelect={setSelectedDate} />*/}
+                        <div className=" calendar-section h-[30vh] overflow-y-auto">
+                            <Calendar  onPanelChange={onPanelChange} />
+
                         </div>
                     </div>
                 </div>
                 <div></div>
+            </div>
+
+            <div >
+                <h1 className="text-xl title font-extrabold leading-tight text-sky-900  py-5">
+                    Склады
+                </h1>
+                <Tabs
+                    onChange={onChange}
+                    type="card"
+                    items={[
+                        {
+                            label: 'Склад сырья',
+                            key: '1',
+                            children: <Table dataSource={dataSource1} columns={columns1}/>,
+                        },
+                        {
+                            label: 'Склад готовой продукции',
+                            key: '2',
+                            children: <Table dataSource={dataSource2} columns={columns2}/>,
+                        },
+                    ]}
+                />
             </div>
         </div>
     );

@@ -1,7 +1,12 @@
 import chartsConfig from "./config.js";
 export const chartConfig = {
+
     type: "line",
-    height: 200,
+    height: 350,
+    width: 630,
+    redrawOnParentResize: true,
+    redrawOnWindowResize: true,
+    breakpoint: undefined,
     series: [
         {
             name: "Sales",
@@ -13,6 +18,7 @@ export const chartConfig = {
         colors: ["#012C6E"],
         stroke: {
             lineCap: "round",
+            curve: "smooth",
         },
         markers: {
             size: 5,
