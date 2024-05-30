@@ -1,0 +1,51 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+    --primaryColor: #012C6E;
+    --primaryHoverColor: #001f55;
+}
+
+.title {
+    color: var(--primaryColor);
+}
+
+.css-1sdt58x {
+border-right-width: 0px !important;
+}
+
+.card-currency {
+    background-color: var(--primaryColor);
+}
+
+.ps-sidebar-container{
+height: 100vh !important;
+font-size: 14px;
+background: url('./assets/sidebar-bg.svg'), var(--primaryColor) !important;
+color: #fff;
+}
+
+.css-1d00spe {
+ border-right-width: 0px !important;
+}
+
+.ps-menu-button:hover {
+background-color: var(--primaryHoverColor) !important;
+}
+
+.ps-submenu-content {
+background-color: var(--primaryColor) !important;
+}
+
+.ps-sidebar-container::-webkit-scrollbar {
+width: 0px;
+}
+
+.ps-sidebar-container::-webkit-scrollbar-thumb {
+background: #fff;
+border-radius: 0px;
+}
+.ps-sidebar-container::-webkit-scrollbar-track {
+background: #FFFFFF;
+}
