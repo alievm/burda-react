@@ -72,12 +72,13 @@ const Sidebar = ({
             {/* Content */}
 
             <Menu iconShape="circle">
+                <Link to="/">
                 <MenuItem
                     icon={<RiHomeOfficeFill size={20}/>}
                 >
                     Главная страница
-                    <NavLink to="/"/>
                 </MenuItem>
+                </Link>
                 <MenuItem icon={<PiChartLineUpFill size={20}/>}>
                     Аналитика <Link to="/components"/>
                 </MenuItem>
@@ -86,35 +87,76 @@ const Sidebar = ({
                     icon={<HiClipboardDocument size={20}/>}
                 >
                     <SubMenu label="Сырье">
+                        <Link to="/main-section">
                         <MenuItem>Основной раздел</MenuItem>
+                        </Link>
+                        <Link to="/title-section">
                         <MenuItem>Наименования</MenuItem>
+                        </Link>
+                        <Link to="/category-section">
                         <MenuItem>Категория</MenuItem>
+                        </Link>
+                        <Link to="/view-section">
                         <MenuItem>Вид</MenuItem>
+                        </Link>
+                        <Link to="/unit-section">
                         <MenuItem>Единица измерения</MenuItem>
-                        <MenuItem>Ширина (Размер)</MenuItem>
+                        </Link>
+                        <Link to="/size">
+                        <MenuItem>Размер</MenuItem>
+                        </Link>
+                        <Link to="/density">
                         <MenuItem>Плотность</MenuItem>
+                        </Link>
+                        <Link to="/season">
                         <MenuItem>Сезон</MenuItem>
+                        </Link>
+                        <Link to="/width">
+                        <MenuItem>Ширина</MenuItem>
+                        </Link>
                     </SubMenu>
                     <SubMenu label="Финансы">
                         <SubMenu label="Создание счета">
+                        <Link to="/currency">
                             <MenuItem>Валюта</MenuItem>
+                            </Link>
+                            <Link to="/city">
                             <MenuItem>Город</MenuItem>
+                            </Link>
+                            <Link to="/types">
                             <MenuItem>Типы</MenuItem>
+                            </Link>
+                            <Link to="/agent">
                             <MenuItem>Субъект</MenuItem>
+                            </Link>
+                            <Link to="/account-name">
                             <MenuItem>Название номера счета</MenuItem>
+                            </Link>
                         </SubMenu>
                         <SubMenu label="Создание источника">
+                        <Link to="/sources">
                             <MenuItem>Создать источники</MenuItem>
+                            </Link>
+                            <Link to="/all-sources">
                             <MenuItem>Все источники</MenuItem>
+                            </Link>
                         </SubMenu>
                     </SubMenu>
                     <SubMenu label="Расходный субъект">
+                    <Link to="/consumption">
                         <MenuItem>Создать субъект</MenuItem>
+                        </Link>
+                        <Link to="/sub-consumption">
                         <MenuItem>Создать суб субъект</MenuItem>
+                        </Link>
                     </SubMenu>
+                    <Link to="/receiver-category">
                     <MenuItem>Категория получателя</MenuItem>
+                    </Link>
                     <MenuItem>Создание категории</MenuItem>
+                    <Link to="/warehouse">
                     <MenuItem>Склады</MenuItem>
+                    </Link>
                 </SubMenu>
                 <SubMenu
                     label={'Склад - сырья'}

@@ -7,9 +7,24 @@
     --primaryHoverColor: #001f55;
 }
 
-.title {
+.title, .title-section {
     color: var(--primaryColor);
 }
+
+
+:where(.css-dev-only-do-not-override-j9bb5n).ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled)::before {
+    background-color: var(--primaryColor) !important;
+}
+
+.ant-btn-primary, .ant-radio-button-checked, .ant-radio-button-wrapper-checked, .ant-picker {
+    background-color: var(--primaryColor) !important;
+    border-color: var(--primaryColor) !important;
+}
+
+.ant-btn-primary:hover {
+    background-color: var(--primaryHoverColor) !important;
+}
+
 
 
 .css-1sdt58x {
@@ -22,6 +37,9 @@ border-right-width: 0px !important;
 
 .calendar-section::-webkit-scrollbar {
 width: 0px;
+}
+.calendar-section {
+    scrollbar-width: none;
 }
 
 .ps-sidebar-root {
@@ -52,6 +70,10 @@ background-color: var(--primaryColor) !important;
 width: 0px;
 }
 
+.ps-sidebar-container {
+    scrollbar-width: none;
+}
+
 .ps-sidebar-container::-webkit-scrollbar-thumb {
 background: #fff;
 border-radius: 0px;
@@ -59,3 +81,57 @@ border-radius: 0px;
 .ps-sidebar-container::-webkit-scrollbar-track {
 background: #FFFFFF;
 }
+
+
+/* Sidebar.css */
+
+.pro-sidebar .pro-inner-list-item {
+    position: relative;
+}
+
+.pro-sidebar .pro-inner-list-item .pro-item-content {
+    padding-left: 20px;
+}
+
+.pro-sidebar .pro-sub-menu {
+    position: relative;
+    padding-left: 20px;
+}
+
+.pro-sidebar .pro-sub-menu:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 1px;
+    background-color: #ccc; /* Цвет линии */
+}
+
+.pro-sidebar .pro-sub-menu > .pro-inner-list-item:not(:last-child):before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -20px;
+    height: 50%;
+    width: 20px;
+    border-top: 1px solid #ccc; /* Цвет линии */
+}
+
+.pro-sidebar .pro-sub-menu > .pro-inner-list-item:last-child:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -20px;
+    height: 50%;
+    width: 20px;
+    border-top: 1px solid #ccc; /* Цвет линии */
+    border-bottom: 1px solid #ccc; /* Цвет линии */
+}
+
+
+
+.ant-picker-input>input::placeholder {
+    color: #fff !important;
+}
+

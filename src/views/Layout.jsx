@@ -16,15 +16,19 @@ import {Switch as SwitchTheme} from 'antd';
 import {MdSunny} from "react-icons/md";
 import {FiMenu} from "react-icons/fi";
 import {BiChevronDown} from "react-icons/bi";
+import {GoChevronDown} from "react-icons/go";
+import {FaUserTie} from "react-icons/fa6";
+import {VscSignOut} from "react-icons/vsc";
+import {RiShutDownLine} from "react-icons/ri";
 
 const profileMenuItems = [
     {
-        label: "My Profile",
-        icon: FiMenu,
+        label: "Мой Профиль",
+        icon: FaUserTie,
     },
     {
-        label: "Edit Profile",
-        icon: FiMenu,
+        label: "Выйти из системы",
+        icon: RiShutDownLine,
     },
 ];
 
@@ -130,7 +134,7 @@ const Layout = () => {
                                         <MenuHandler>
                                             <Button
                                                 variant="text"
-                                                className="flex bg-white hover:bg-white items-center gap-1 rounded-full py-0.5 pr-2 pl-0.5 lg:ml-auto"
+                                                className="flex focus:bg-white active:bg-white bg-white hover:bg-white items-center gap-1 rounded-full py-0.5 pr-2 pl-0.5 lg:ml-auto"
                                             >
                                                 <Avatar
                                                     variant="circular"
@@ -139,7 +143,7 @@ const Layout = () => {
                                                     className="p-0.5"
                                                     src="/public/anonym.jpg"
                                                 />
-                                                <BiChevronDown
+                                                <GoChevronDown
                                                     strokeWidth={2.5}
                                                     className={`h-3 w-3 transition-transform ${
                                                         isMenuOpen ? "rotate-180" : ""
@@ -164,7 +168,6 @@ const Layout = () => {
                                                        >
                                                            {React.createElement(icon, {
                                                                className: `h-4 w-4 ${isLastItem ? "text-red-500" : ""}`,
-                                                               strokeWidth: 2,
                                                            })}
                                                            <Typography
                                                                as="span"

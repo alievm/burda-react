@@ -373,7 +373,7 @@ const Homepage = () => {
                                             className="flex gap-5 justify-between pr-2.5 pb-1.5 text-black whitespace-nowrap">
                                             <div className="flex flex-col">
                                                 <div className="text-xl font-semibold">124,854</div>
-                                                <div className="text-base">Статистика</div>
+                                                <div className="text-sm">Статистика</div>
                                             </div>
                                             <div
                                                 className="flex justify-center items-center px-3 w-11 h-11 bg-[#012C6E] rounded-md shadow-sm">
@@ -403,7 +403,7 @@ const Homepage = () => {
                                             className="flex gap-5 justify-between pr-2.5 pb-1.5 text-black whitespace-nowrap">
                                             <div className="flex flex-col">
                                                 <div className="text-xl font-semibold">124,854</div>
-                                                <div className="text-base">Статистика</div>
+                                                <div className="text-sm">Статистика</div>
                                             </div>
                                             <div
                                                 className="flex justify-center items-center px-3 w-11 h-11 bg-[#012C6E] rounded-md shadow-sm">
@@ -433,7 +433,7 @@ const Homepage = () => {
                                             className="flex gap-5 justify-between pr-2.5 pb-1.5 text-black whitespace-nowrap">
                                             <div className="flex flex-col">
                                                 <div className="text-xl font-semibold">124,854</div>
-                                                <div className="text-base">Статистика</div>
+                                                <div className="text-sm">Статистика</div>
                                             </div>
                                             <div
                                                 className="flex justify-center items-center px-3 w-11 h-11 bg-[#012C6E] rounded-md shadow-sm">
@@ -461,7 +461,7 @@ const Homepage = () => {
                         </div>
                         {/*<DayPicker  locale={ru} mode="default" selected={selectedDate} onSelect={setSelectedDate} />*/}
                         <div className=" calendar-section h-[30vh] overflow-y-auto">
-                            <Calendar  onPanelChange={onPanelChange} />
+                            <Calendar colorPrimary="#000"  onPanelChange={onPanelChange} />
 
                         </div>
                     </div>
