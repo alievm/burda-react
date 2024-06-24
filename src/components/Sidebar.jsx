@@ -33,7 +33,7 @@ const Sidebar = ({
                  }) => {
     return (
         <ProSidebar
-            className="z-[999]"
+            className="z-[999] hidden lg:block"
             collapsed={collapsed}
             toggled={toggled}
             onToggle={handleToggleSidebar}

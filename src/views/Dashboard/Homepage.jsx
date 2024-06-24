@@ -480,7 +480,7 @@ const Homepage = () => {
                         {
                             label: 'Склад сырья',
                             key: '1',
-                            children: <Table dataSource={dataSource1} columns={columns1}/>,
+                            children: <Table className="overflow-x-auto" dataSource={dataSource1} columns={columns1}/>,
                         },
                         {
                             label: 'Склад готовой продукции',
