@@ -131,8 +131,8 @@ const Density = () => {
             dataIndex: 'actions',
             render: (text, record) => (
                 <Space size="small">
-                    <Button className="flex items-center" icon={<FaPencilAlt/>} type="primary" size="middle" onClick={() => handleEdit(record)}>Изменить</Button>
-                    <Button type="default" className="flex items-center" icon={<MdDeleteSweep size="20"/>} size="middle" onClick={() => handleDeleteCategory(record.key)}>Удалить</Button>
+                    <Button className="flex items-center" icon={<FaPencilAlt/>} type="primary" size="middle" onClick={() => handleDeleteCategory(record.key)}>Изменить</Button>
+                    Сезон успешно изменен!
                 </Space>
             ),
         },
@@ -177,8 +177,8 @@ const Density = () => {
             setIsModalVisible(false);
 
             notification.success({
-                message: 'Success',
-                description: 'Category updated successfully!',
+                message: 'Успешно изменена',
+                description: 'Плотность успешно изменена!',
             });
         } catch (error) {
             notification.error({
@@ -214,8 +214,8 @@ const Density = () => {
             setIsModalVisible(false);
 
             notification.success({
-                message: 'Success',
-                description: 'New category created successfully!',
+                message: 'Успешно создана',
+                description: 'Плотность успешно создана!',
             });
         } catch (error) {
             notification.error({
@@ -237,8 +237,8 @@ const Density = () => {
 
                 // Уведомляем пользователя об успешном удалении категории
                 notification.success({
-                    message: 'Success',
-                    description: 'Category deleted successfully!',
+                    message: 'Успешно удалено',
+                    description: 'Плотность успешно удалена!',
                 });
             }
         } catch (error) {

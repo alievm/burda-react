@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import {Button, Dropdown, Input, Layout, Modal, notification, Select, Space, Table} from 'antd';
+import {Button, Dropdown, Input, Layout, Modal, notification, Popconfirm, Select, Space, Table} from 'antd';
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { DndContext } from '@dnd-kit/core';
 import { restrictToVerticalAxis } from '@dnd-kit/modifiers';
@@ -129,8 +129,8 @@ const ViewsSection = () => {
             setDataSource([createdData, ...dataSource]);
             setModalVisible(false);
             notification.success({
-                message: 'Успех',
-                description: 'Новая категория успешно создана!',
+                message: 'Успешно создан',
+                description: 'Вид успешно создан!',
             });
         } catch (error) {
             console.error('Failed to create category:', error);
@@ -158,7 +158,7 @@ const ViewsSection = () => {
             const { id, main_category_id,category_id ,name_id, title } = modalData;
             await updateView(id, { main_category_id, category_id,name_id, title });
             notification.success({
-                message: 'Успешно',
+                message: 'Успешно изменен',
                 description: 'Категория успешно обновлена.',
             });
             fetchMainData();
@@ -235,7 +235,9 @@ const ViewsSection = () => {
             render: (text, record) => (
                 <Space size="small">
                     <Button icon={<FaPencilAlt/>} type="primary" className="flex items-center" onClick={() => handleEdit(record)}>Изменить</Button>
-                    <Button icon={<MdDeleteSweep size="20"/>} className="flex items-center" onClick={() => handleDelete(record.id)} style={{ marginLeft: 8 }}>Удалить</Button>
+                    <Popconfirm title="Вы хотите удалить ?" onConfirm={() => handleDelete(record.id)}>
+                        <Button type="default" className="flex items-center" icon={<MdDeleteSweep size="20"/>} size="middle" >Удалить</Button>
+                    </Popconfirm>
                 </Space>
             ),
         },

@@ -14,7 +14,7 @@ import {
     Layout, Modal,
     Space,
     Table,
-    notification, Spin
+    notification, Spin, Popconfirm
 } from 'antd';
 import DragHandle from "../../../../components/DragHandle.jsx";
 import Row from '../../../../components/Row.jsx'
@@ -144,7 +144,9 @@ const Width = () => {
             render: (text, record) => (
                 <Space size="small">
                     <Button className="flex items-center" icon={<FaPencilAlt/>} type="primary" size="middle" onClick={() => handleEdit(record)}>Изменить</Button>
-                    <Button type="default" className="flex items-center" icon={<MdDeleteSweep size="20"/>} size="middle" onClick={() => handleDeleteCategory(record.key)}>Удалить</Button>
+                    <Popconfirm title="Вы хотите удалить ?" onConfirm={() => handleDeleteCategory(record.key)}>
+                        <Button type="default" className="flex items-center" icon={<MdDeleteSweep size="20"/>} size="middle" >Удалить</Button>
+                    </Popconfirm>
                 </Space>
             ),
         },
@@ -192,8 +194,8 @@ const Width = () => {
             setIsModalVisible(false);
 
             notification.success({
-                message: 'Success',
-                description: 'Category updated successfully!',
+                message: 'Успешно изменена',
+                description: 'Ширина успешно изменена!',
             });
         } catch (error) {
             notification.error({
@@ -230,8 +232,8 @@ const Width = () => {
             setIsModalVisible(false);
 
             notification.success({
-                message: 'Success',
-                description: 'New category created successfully!',
+                message: 'Успешно создана',
+                description: 'Ширина была успешно создана!',
             });
         } catch (error) {
             notification.error({
@@ -253,8 +255,8 @@ const Width = () => {
 
                 // Уведомляем пользователя об успешном удалении категории
                 notification.success({
-                    message: 'Success',
-                    description: 'Category deleted successfully!',
+                    message: 'Успешно удалена',
+                    description: 'Ширина успешно удалена!',
                 });
             }
         } catch (error) {

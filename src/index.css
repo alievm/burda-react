@@ -25,7 +25,14 @@
     background-color: var(--primaryHoverColor) !important;
 }
 
+.ant-radio-button-wrapper-checked span {
+    color: #fff!important;
+}
 
+.ant-radio-button-checked {
+    border-color: var(--primaryColor) !important;
+
+}
 
 .css-1sdt58x {
 border-right-width: 0px !important;

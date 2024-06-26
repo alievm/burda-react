@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import {Button, Dropdown, Input, Layout, Modal, notification, Select, Space, Table} from 'antd';
+import {Button, Dropdown, Input, Layout, Modal, notification, Popconfirm, Select, Space, Table} from 'antd';
 import { createTitle, deleteNameById, editNameById, fetchTitles, fetchMainCategories } from "../../../../service/directories/titleService.js";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { DndContext } from '@dnd-kit/core';
@@ -86,7 +86,7 @@ const TitleSection = () => {
             fetchMainData();
             setModalVisible(false);
             notification.success({
-                message: 'Успех',
+                message: 'Успешно создано',
                 description: 'Новое наименование успешно создано!',
             });
         } catch (error) {
@@ -122,7 +122,7 @@ const TitleSection = () => {
             }
             setModalVisible(false);
             notification.success({
-                message: 'Успех',
+                message: 'Успешно изменено',
                 description: 'Наименование успешно обновлено!',
             });
         } catch (error) {
@@ -139,7 +139,7 @@ const TitleSection = () => {
             await deleteNameById(id);
             setDataSource(dataSource.filter(item => item.id !== id));
             notification.success({
-                message: 'Успех',
+                message: 'Успешно удалено!',
                 description: 'Наименование успешно удалено!',
             });
         } catch (error) {
@@ -182,7 +182,9 @@ const TitleSection = () => {
             render: (text, record) => (
                 <Space size="small">
                     <Button className="flex items-center" icon={<FaPencilAlt/>} type="primary" onClick={() => handleEdit(record)}>Изменить</Button>
-                    <Button className="flex items-center" icon={<MdDeleteSweep size="20"/>} onClick={() => handleDelete(record.id)}  style={{ marginLeft: 8 }}>Удалить</Button>
+                    <Popconfirm title="Вы хотите удалить ?" onConfirm={() => handleDelete(record.id)}>
+                        <Button type="default" className="flex items-center" icon={<MdDeleteSweep size="20"/>} size="middle" >Удалить</Button>
+                    </Popconfirm>
                 </Space>
             ),
         },

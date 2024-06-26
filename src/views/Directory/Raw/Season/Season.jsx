@@ -14,7 +14,7 @@ import {
     Layout, Modal,
     Space,
     Table,
-    notification, Spin
+    notification, Spin, Popconfirm
 } from 'antd';
 import DragHandle from "../../../../components/DragHandle.jsx";
 import Row from '../../../../components/Row.jsx'
@@ -143,7 +143,9 @@ const Season = () => {
             render: (text, record) => (
                 <Space size="small">
                     <Button className="flex items-center" icon={<FaPencilAlt/>} type="primary" size="middle" onClick={() => handleEdit(record)}>Изменить</Button>
-                    <Button type="default" className="flex items-center" icon={<MdDeleteSweep size="20"/>} size="middle" onClick={() => handleDeleteCategory(record.key)}>Удалить</Button>
+                    <Popconfirm title="Вы хотите удалить ?" onConfirm={() => handleDeleteCategory(record.key)}>
+                        <Button type="default" className="flex items-center" icon={<MdDeleteSweep size="20"/>} size="middle" >Удалить</Button>
+                    </Popconfirm>
                 </Space>
             ),
         },
@@ -191,8 +193,8 @@ const Season = () => {
             setIsModalVisible(false);
 
             notification.success({
-                message: 'Success',
-                description: 'Category updated successfully!',
+                message: 'Успешно изменено',
+                description: 'Сезон успешно изменен!',
             });
         } catch (error) {
             notification.error({
@@ -229,8 +231,8 @@ const Season = () => {
             setIsModalVisible(false);
 
             notification.success({
-                message: 'Success',
-                description: 'New category created successfully!',
+                message: 'Успешно создан',
+                description: 'Сезон успешно создан!',
             });
         } catch (error) {
             notification.error({
@@ -252,8 +254,8 @@ const Season = () => {
 
                 // Уведомляем пользователя об успешном удалении категории
                 notification.success({
-                    message: 'Success',
-                    description: 'Category deleted successfully!',
+                    message: 'Успешно удалено',
+                    description: 'Сезон успешно удален!',
                 });
             }
         } catch (error) {

@@ -9,7 +9,18 @@ import ruRU from 'antd/locale/ru_RU';
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
       <BrowserRouter>
-          <ConfigProvider locale={ruRU}>
+          <ConfigProvider
+              theme={{
+                  token: {
+                      colorSplit: '#fff'
+                  },
+                  components: {
+                      Form: {
+                          labelColor: '#ffff'
+                      },
+                  },
+              }}
+              locale={ruRU}>
               <App />
           </ConfigProvider>
       </BrowserRouter>
