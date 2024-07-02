@@ -1,5 +1,20 @@
 import React, { useEffect, useState } from 'react';
-import {Button, Dropdown, Input, Layout, Modal, notification, Select, Space, Table} from 'antd';
+import {
+    Button, Collapse,
+    DatePicker,
+    Divider,
+    Dropdown, Flex,
+    Form,
+    Input,
+    Layout,
+    Modal,
+    notification, Pagination, Radio, Segmented,
+    Select,
+    Space, Spin,
+    Table
+} from 'antd';
+
+const {Panel} = Collapse;
 import { createTitle, deleteNameById, editNameById, fetchTitles, fetchMainCategories } from "../../../../service/directories/titleService.js";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { DndContext } from '@dnd-kit/core';
@@ -18,6 +33,11 @@ import {CurrencyCard} from "../../../Dashboard/components/CurrencyCard.jsx";
 import {siderStyle} from "../../../../components/layoutStyles.js";
 import {fetchAgents, deleteAgent, updateAgent, createAgent} from "../../../../service/finance/agentService.js";
 import {fetchAllCities, updateCity} from "../../../../service/finance/cityService.js";
+import {CgMenuGridO} from "react-icons/cg";
+import {RiSearch2Line} from "react-icons/ri";
+import {VscListFlat, VscListSelection} from "react-icons/vsc";
+import {RxListBullet} from "react-icons/rx";
+import {AiFillSetting} from "react-icons/ai";
 
 const { Content, Sider } = Layout;
 
@@ -33,6 +53,24 @@ const Agent = () => {
         code: '',
     });
     const [mainCategories, setMainCategories] = useState([]);
+
+    const [bordered, setBordered] = useState(false);
+    const [size, setSize] = useState('large');
+    const [showTitle, setShowTitle] = useState(false);
+    const [showHeader, setShowHeader] = useState(true);
+    const [showFooter, setShowFooter] = useState(false);
+    const [rowSelection, setRowSelection] = useState({});
+    const [hasData, setHasData] = useState(true);
+    const [tableLayout, setTableLayout] = useState();
+    const [top, setTop] = useState('none');
+    const [bottom, setBottom] = useState('bottomRight');
+    const [ellipsis, setEllipsis] = useState(false);
+    const [yScroll, setYScroll] = useState(false);
+    const [xScroll, setXScroll] = useState();
+    // Pagination state
+    const [current, setCurrent] = useState(1);
+    const [pageSize, setPageSize] = useState(10);
+    const [total, setTotal] = useState(0);
 
     useEffect(() => {
         fetchMainData();
@@ -204,6 +242,75 @@ const Agent = () => {
         },
     ];
 
+    const handleBorderChange = (enable) => {
+        setBordered(enable);
+    };
+    const handleLoadingChange = (enable) => {
+        setLoading(enable);
+    };
+    const handleSizeChange = (e) => {
+        setSize(e.target.value);
+    };
+    const handleTableLayoutChange = (value) => {
+        setTableLayout(value);
+    };
+
+    const handleTableChange = (pagination, filters, sorter) => {
+        setCurrent(pagination.current);
+        setPageSize(pagination.pageSize);
+    };
+
+    const handleEllipsisChange = (enable) => {
+        setEllipsis(enable);
+    };
+    const handleTitleChange = (enable) => {
+        setShowTitle(enable);
+    };
+    const handleHeaderChange = (enable) => {
+        setShowHeader(enable);
+    };
+    const handleFooterChange = (enable) => {
+        setShowFooter(enable);
+    };
+    const handleRowSelectionChange = (enable) => {
+        setRowSelection(enable ? {} : undefined);
+    };
+    const handleYScrollChange = (enable) => {
+        setYScroll(enable);
+    };
+    const handleXScrollChange = (value) => {
+        setXScroll(value);
+    };
+    const handleDataChange = (newHasData) => {
+        setHasData(newHasData);
+    };
+    const scroll = {};
+    if (yScroll) {
+        scroll.y = 240;
+    }
+    if (xScroll) {
+        scroll.x = '100vw';
+    }
+    const tableColumns = columns.map((item) => ({
+        ...item,
+        ellipsis,
+    }));
+    if (xScroll === 'fixed') {
+        tableColumns[0].fixed = true;
+        tableColumns[tableColumns.length - 1].fixed = 'right';
+    }
+    const tableProps = {
+        bordered,
+        loading,
+        size,
+        title: showTitle ? defaultTitle : undefined,
+        showHeader,
+        footer: showFooter ? defaultFooter : undefined,
+        rowSelection,
+        scroll,
+        tableLayout,
+    };
+
     const onDragEnd = ({ active, over }) => {
         if (active.id !== over?.id) {
             setDataSource((prevState) => {
@@ -219,28 +326,73 @@ const Agent = () => {
             <div className="flex flex-col bg-white">
                 <div className="flex gap-4 px-6 py-1 max-md:flex-wrap max-md:px-5">
                     <div className="flex flex-col flex-1 justify-center max-md:max-w-full">
-                        <div className="text-xl title-section font-extrabold tracking-normal text-sky-900 max-md:max-w-full">
+                        <div
+                            className="text-xl title-section font-extrabold tracking-normal text-sky-900 max-md:max-w-full">
                             Сводка данных
                         </div>
                     </div>
                 </div>
             </div>
-            <div className="p-3 bg-white rounded-lg max-md:pr-5">
-                <div className="flex container gap-5 max-md:flex-col max-md:gap-0">
-                    <main className="">
+            <div className="p-3  max-w-full bg-white rounded-lg max-md:pr-5 ">
+                <div className="flex  gap-5 max-md:flex-col max-md:gap-0">
+                    <main className="flex items-center ">
                         <div className="grid lg:grid-cols-4 grid-cols-1 gap-4">
                             {currencyData.map((data, index) => (
                                 <CurrencyCard key={index} {...data} />
                             ))}
                         </div>
+                        <Flex vertical gap="middle" className="p-3 rounded-lg border">
+                            <Flex className="items-center">
+                                <div style={{backgroundColor: 'rgb(241 243 245)'}}
+                                     className="p-2 mr-4 max-w-min title rounded-lg">
+                                    <AiFillSetting size="25"/>
+                                </div>
+                                Конфигурация таблицы
+                            </Flex>
+
+
+                            <Segmented
+                                className="max-w-min"
+                                options={[
+                                    {label: 'Сбросить', value: undefined},
+                                    {label: 'Прокрутка', value: 'scroll'},
+                                    {label: 'Фиксированные столбцы', value: 'fixed'}
+                                ]}
+                                value={xScroll}
+                                onChange={handleXScrollChange}
+                            />
+
+                            <Segmented
+                                className="max-w-min"
+                                options={[
+                                    {label: 'Сбросить', value: undefined},
+                                    {label: 'Фиксированный', value: 'fixed'}
+                                ]}
+                                value={tableLayout}
+                                onChange={handleTableLayoutChange}
+                            />
+
+                            <Segmented
+                                options={[
+                                    {label: 'Нижний левый', value: 'bottomLeft'},
+                                    {label: 'Нижний центр', value: 'bottomCenter'},
+                                    {label: 'Нижний правый', value: 'bottomRight'},
+                                    {label: 'Ничто...', value: 'none'}
+                                ]}
+                                value={bottom}
+                                onChange={(value) => setBottom(value)}
+                            />
+                        </Flex>
                     </main>
+
                 </div>
             </div>
             <div className="bg-white rounded-xl border border-gray-200 border-solid shadow-sm h-full min-h-[85vh]">
                 <div className="flex flex-col bg-white">
                     <div className="flex gap-4 px-6 py-5 max-md:flex-wrap max-md:px-5">
                         <div className="flex flex-col flex-1 justify-center max-md:max-w-full">
-                            <div className="text-xl title-section font-extrabold tracking-normal text-sky-900 max-md:max-w-full">
+                            <div
+                                className="text-xl title-section font-extrabold tracking-normal text-sky-900 max-md:max-w-full">
                                 Субъект
                             </div>
                             <div className="mt-1 text-sm leading-5 text-ellipsis text-slate-600 max-md:max-w-full">
@@ -259,9 +411,9 @@ const Agent = () => {
                         >
                             <Select
                                 placeholder="Выберите город"
-                                style={{ width: '100%', marginBottom: 16 }}
+                                style={{width: '100%', marginBottom: 16}}
                                 value={modalData.city_id}
-                                onChange={(value) => setModalData({ ...modalData, city_id: value })}
+                                onChange={(value) => setModalData({...modalData, city_id: value})}
                             >
                                 {mainCategories.map(category => (
                                     <Select.Option key={category.value} value={category.value}>
@@ -272,38 +424,164 @@ const Agent = () => {
                             <Input
                                 placeholder="Введите название"
                                 value={modalData.title}
-                                onChange={(e) => setModalData({ ...modalData, title: e.target.value })}
+                                onChange={(e) => setModalData({...modalData, title: e.target.value})}
                             />
                         </Modal>
                         <Dropdown placement="bottom" trigger={['click']}>
                             <Button type="text" onClick={(e) => e.preventDefault()}>
-                                <BsThreeDotsVertical className="text-xl" />
+                                <BsThreeDotsVertical className="text-xl"/>
                             </Button>
                         </Dropdown>
                     </div>
-                    <div className="w-full bg-gray-200 min-h-[1px] max-md:max-w-full" />
+                    <div className="w-full bg-gray-200 min-h-[1px] max-md:max-w-full"/>
                 </div>
                 <Layout>
                     <Content>
                         <DndContext modifiers={[restrictToVerticalAxis]} onDragEnd={onDragEnd}>
-                            <SortableContext items={dataSource.map((item) => item.id)} strategy={verticalListSortingStrategy}>
+                            <SortableContext items={dataSource.map((item) => item.id)}
+                                             strategy={verticalListSortingStrategy}>
                                 <Table
-                                    dataSource={dataSource}
-                                    columns={columns}
-                                    loading={loading}
-                                    rowKey="id"
+                                    {...tableProps}
+                                    pagination={false}
+                                    onChange={handleTableChange}
+                                    scroll={scroll}
+                                    loading={{indicator: <div><Spin/></div>, spinning: !dataSource}}
+                                    rowKey="key"
                                     components={{
                                         body: {
-                                            row: Row, // Ensure Row component is correctly defined
+                                            row: Row,
                                         },
                                     }}
-                                    pagination={{ pageSize: 10 }}
+                                    columns={columns}
+                                    dataSource={hasData ? dataSource : []}
                                 />
                             </SortableContext>
                         </DndContext>
                     </Content>
-                    <Sider style={siderStyle} width="28%">
-                        Sider
+                    <Sider className="p-10" width="33%" style={siderStyle}>
+                        <div
+                            className="bg-white mx-auto px-4 rounded-xl border border-gray-200 border-solid max-w-[401px] min-h-[692px]">
+                            <Form className="mb-4" layout="inline">
+                                <DatePicker placeholder="Искать по дате" className="w-full py-2"/>
+                            </Form>
+                            <form className="flex gap-2 items-center max-w-full">
+                                <label htmlFor="simple-search" className="sr-only">
+                                    Search
+                                </label>
+                                <div className="relative w-full">
+                                    <div
+                                        className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                                        <CgMenuGridO className="text-black" size="18"/>
+                                    </div>
+                                    <input
+                                        type="text"
+                                        id="simple-search"
+                                        className=" border border-gray-300 text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:outline-none  block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                        placeholder="Искать..."
+                                        required=""
+                                    />
+                                </div>
+                                <Button type="primary" size="large" shape="default"
+                                        icon={<RiSearch2Line className="mx-5" size="20"/>}>
+                                </Button>
+                            </form>
+                            <Divider className="text-white">Параметры таблицы</Divider>
+                            <Form className="mb-4">
+                                <Radio.Group className="flex mx-auto justify-center " buttonStyle="solid"
+                                             value={size} onChange={handleSizeChange}>
+                                    <Radio.Button value="large"
+                                                  className="flex items-center max-w-min"><VscListFlat/></Radio.Button>
+                                    <Radio.Button value="middle"
+                                                  className="flex items-center max-w-min"><VscListSelection/></Radio.Button>
+                                    <Radio.Button value="small"
+                                                  className="flex items-center max-w-min"><RxListBullet/></Radio.Button>
+                                </Radio.Group>
+                            </Form>
+                            <Collapse className="border-none" defaultActiveKey="1" accordion>
+                                <Panel className="border-none" header="Опции таблицы" key="1">
+                                    <Form layout="inline" className="components-table-demo-control-bar">
+                                        <Flex className="flex-col gap-y-3">
+                                            <Form.Item label="Ограниченный">
+                                                <Segmented
+                                                    options={['Нет', 'Да']}
+                                                    value={bordered ? 'Да' : 'Нет'}
+                                                    onChange={(value) => handleBorderChange(value === 'Да')}
+                                                />
+                                            </Form.Item>
+
+                                            <Form.Item label="Загрузка">
+                                                <Segmented
+                                                    options={['Нет', 'Да']}
+                                                    value={loading ? 'Да' : 'Нет'}
+                                                    onChange={(value) => handleLoadingChange(value === 'Да')}
+                                                />
+                                            </Form.Item>
+                                            {/*<Form.Item label="Заголовок">*/}
+                                            {/*    <Segmented*/}
+                                            {/*        options={['Нет', 'Да']}*/}
+                                            {/*        value={showTitle ? 'Да' : 'Нет'}*/}
+                                            {/*        onChange={(value) => handleTitleChange(value === 'Да')}*/}
+                                            {/*    />*/}
+                                            {/*</Form.Item>*/}
+                                            {/*<Form.Item label="Заголовок столбца">*/}
+                                            {/*    <Segmented*/}
+                                            {/*        options={['Нет', 'Да']}*/}
+                                            {/*        value={showHeader ? 'Да' : 'Нет'}*/}
+                                            {/*        onChange={(value) => handleHeaderChange(value === 'Да')}*/}
+                                            {/*    />*/}
+                                            {/*</Form.Item>*/}
+                                            {/*<Form.Item label="Нижний колонтитул">*/}
+                                            {/*    <Segmented*/}
+                                            {/*        options={['Нет', 'Да']}*/}
+                                            {/*        value={showFooter ? 'Да' : 'Нет'}*/}
+                                            {/*        onChange={(value) => handleFooterChange(value === 'Да')}*/}
+                                            {/*    />*/}
+                                            {/*</Form.Item>*/}
+                                            <Form.Item label="Флажки">
+                                                <Segmented
+                                                    options={['Нет', 'Да']}
+                                                    value={!!rowSelection ? 'Да' : 'Нет'}
+                                                    onChange={(value) => handleRowSelectionChange(value === 'Да')}
+                                                />
+                                            </Form.Item>
+                                            <Form.Item label="Фикс. заголовок">
+                                                <Segmented
+                                                    options={['Нет', 'Да']}
+                                                    value={!!yScroll ? 'Да' : 'Нет'}
+                                                    onChange={(value) => handleYScrollChange(value === 'Да')}
+                                                />
+                                            </Form.Item>
+                                            {/*<Form.Item label="Имеет данные">*/}
+                                            {/*    <Segmented*/}
+                                            {/*        options={['Нет', 'Да']}*/}
+                                            {/*        value={!!hasData ? 'Да' : 'Нет'}*/}
+                                            {/*        onChange={(value) => handleDataChange(value === 'Да')}*/}
+                                            {/*    />*/}
+                                            {/*</Form.Item>*/}
+                                            {/*<Form.Item label="Эллипсис">*/}
+                                            {/*    <Segmented*/}
+                                            {/*        options={['Нет', 'Да']}*/}
+                                            {/*        value={!!ellipsis ? 'Да' : 'Нет'}*/}
+                                            {/*        onChange={(value) => handleEllipsisChange(value === 'Да')}*/}
+                                            {/*    />*/}
+                                            {/*</Form.Item>*/}
+                                        </Flex>
+                                    </Form>
+                                </Panel>
+                            </Collapse>
+
+
+                            <Pagination
+                                className="mt-7"
+                                current={current}
+                                pageSize={pageSize}
+                                total={total}
+                                onChange={(page, pageSize) => {
+                                    setCurrent(page);
+                                    setPageSize(pageSize);
+                                }}
+                            />
+                        </div>
                     </Sider>
                 </Layout>
             </div>

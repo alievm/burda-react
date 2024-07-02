@@ -2,9 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
 :root {
     --primaryColor: #012C6E;
     --primaryHoverColor: #001f55;
+}
+
+* {
+    font-family: "Roboto", sans-serif !important;
 }
 
 .title, .title-section {
@@ -16,7 +22,29 @@
     background-color: var(--primaryColor) !important;
 }
 
-.ant-btn-primary, .ant-radio-button-checked, .ant-radio-button-wrapper-checked, .ant-picker {
+.ant-radio-button-checked {
+    border-radius: 8px;
+    background-color: transparent;
+    border: none;
+}
+
+.ant-radio-button-checked:hover {
+    color: #000 !important;
+}
+
+.ant-radio-button-wrapper-checked {
+    background-color: #fff;
+}
+
+:where(.css-dev-only-do-not-override-1n5na2).ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled)::before {
+    background-color: #fff;
+}
+
+.ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled):hover::before {
+    background-color: #fff;
+}
+
+.ant-btn-primary, .ant-radio-button-checked, .ant-radio-button-wrapper-checked {
     background-color: var(--primaryColor) !important;
     border-color: var(--primaryColor) !important;
 }
@@ -31,7 +59,6 @@
 
 .ant-radio-button-checked {
     border-color: var(--primaryColor) !important;
-
 }
 
 .css-1sdt58x {
@@ -136,9 +163,4 @@ background: #FFFFFF;
     border-bottom: 1px solid #ccc; /* Цвет линии */
 }
 
-
-
-.ant-picker-input>input::placeholder {
-    color: #fff !important;
-}
 

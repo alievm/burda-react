@@ -438,7 +438,7 @@ const CategorySection = () => {
                             <div
                                 className="bg-white mx-auto px-4 rounded-xl border border-gray-200 border-solid max-w-[401px] min-h-[692px]">
                                 <Divider>Календарь</Divider>
-                                <DatePicker className="w-full"/>
+                                <DatePicker placeholder="фывфыв" className="w-full"/>
                                 <Divider>Отображаемые колонки</Divider>
                                 <Checkbox.Group
                                     className="flex justify-start"

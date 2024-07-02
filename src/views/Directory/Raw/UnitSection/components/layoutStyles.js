@@ -12,8 +12,8 @@ export const contentStyle = {
 export const siderStyle = {
     textAlign: 'center',
     lineHeight: '70vh',
-    color: '#fff',
-    backgroundColor: '#012C6E',
+    color: '#000',
+    backgroundColor: '#fff',
 };
 export const footerStyle = {
     textAlign: 'center',
