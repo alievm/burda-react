@@ -20,5 +20,6 @@ export const footerStyle = {
 };
 export const layoutStyle = {
     width: '100%',
+    backgroundColor: '#fff',
     maxWidth: '100%',
 };

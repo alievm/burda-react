@@ -13,7 +13,7 @@ import {
     Radio,
     Pagination, Divider, Select,
     DatePicker,
-    message
+    message, Collapse, Flex, Segmented
 } from "antd";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import qs from 'qs';
@@ -29,6 +29,14 @@ import {
 } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import {CurrencyCard} from "../../Dashboard/components/CurrencyCard.jsx";
+import {siderStyle} from "../../../components/layoutStyles.js";
+import {CgMenuGridO} from "react-icons/cg";
+import {RiSearch2Line} from "react-icons/ri";
+import {VscListFlat, VscListSelection} from "react-icons/vsc";
+import {RxListBullet} from "react-icons/rx";
+import {currencyData} from "../../../utils/currencyData.js";
+import {AiFillSetting} from "react-icons/ai";
+import {EyeIcon, EyeSlashIcon, FolderPlusIcon} from "@heroicons/react/24/solid/index.js";
 
 // Mock menu items for dropdown
 const items = [
@@ -75,6 +83,9 @@ const getRandomuserParams = (params) => ({
 const RowContext = React.createContext({});
 const Types = () => {
     const [form] = Form.useForm();
+    const [filteredDataSource, setFilteredDataSource] = useState([]);
+    const [isSidebarVisible, setIsSidebarVisible] = useState(true);
+    const [searchText, setSearchText] = useState('');
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(false);
     const [messageApi, contextHolder] = message.useMessage();
@@ -201,6 +212,7 @@ const Types = () => {
                     code: user.location.postcode,
                 }));
                 setData(mappedData);
+                setFilteredDataSource(mappedData);
                 setLoading(false);
                 setTableParams((prev) => ({
                     ...prev,
@@ -325,15 +337,36 @@ const Types = () => {
                     </div>
                 </div>
             </div>
-            <div className="p-3 bg-white rounded-lg max-md:pr-5">
-                <div className="flex container gap-5 max-md:flex-col max-md:gap-0">
-
-                    <main className="">
+            <div className="p-3  max-w-full bg-white rounded-lg max-md:pr-5 ">
+                <div className="flex  gap-5 max-md:flex-col max-md:gap-0">
+                    <main className="flex items-center ">
                         <div className="grid lg:grid-cols-4 grid-cols-1 gap-4">
                             {currencyData.map((data, index) => (
                                 <CurrencyCard key={index} {...data} />
                             ))}
                         </div>
+                        <Flex vertical gap="middle" className="p-3 rounded-lg border">
+                            <Flex className="items-center">
+                                <div style={{backgroundColor: 'rgb(241 243 245)'}}
+                                     className="p-2 mr-4 max-w-min title rounded-lg">
+                                    <AiFillSetting size="25"/>
+                                </div>
+                                Конфигурация таблицы
+                            </Flex>
+
+
+                            <DatePicker placeholder="Искать по дате" className="w-full py-2"/>
+                            <Segmented
+                                options={[
+                                    {label: 'Нижний левый', value: 'bottomLeft'},
+                                    {label: 'Нижний центр', value: 'bottomCenter'},
+                                    {label: 'Нижний правый', value: 'bottomRight'},
+                                    {label: 'Ничто...', value: 'none'}
+                                ]}
+                                value={bottom}
+                                onChange={(value) => setBottom(value)}
+                            />
+                        </Flex>
                     </main>
 
                 </div>
@@ -344,7 +377,7 @@ const Types = () => {
                         <div className="flex flex-col flex-1 justify-center max-md:max-w-full">
                             <div
                                 className="text-xl title-section font-extrabold tracking-normal text-sky-900 max-md:max-w-full">
-                              Типы
+                                Типы
                             </div>
                             <div className="mt-1 text-sm leading-5 text-ellipsis text-slate-600 max-md:max-w-full">
                                 Маленькая таблица
@@ -362,9 +395,18 @@ const Types = () => {
                     <Layout className="h-full bg-white">
                         <Content>
                             <div className="flex items-center gap-x-4">
-                                <Button className="my-3" type="primary" onClick={addRow} style={{marginBottom: 16}}>
-                                    Добавить Наименование
-                                </Button>
+                                    <Button
+                                        size="large"
+                                        className="flex items-center text-sm"
+                                        icon={isSidebarVisible ? <EyeIcon className="h-5 w-6" /> : <EyeSlashIcon className="h-5 w-6" />}
+                                        type="primary"
+                                        onClick={() => setIsSidebarVisible(!isSidebarVisible)}
+                                    >
+                                        {isSidebarVisible ? 'Скрыть панель' : 'Показать панель'}
+                                    </Button>
+                                    <Button  className="items-center text-sm flex" icon={<FolderPlusIcon className="h-5 w-6" />} size="large" type="primary" onClick={addRow}>
+                                        Добавить новый тип
+                                    </Button>
                                 <Radio.Group
                                     options={options}
                                     onChange={onChange4}
@@ -390,88 +432,130 @@ const Types = () => {
                                 />
                             </Form>
                         </Content>
-                        <Sider className="p-6 mt-9" style={{backgroundColor: 'white'}} width="30%">
-                            <div
-                                className="bg-white mx-auto px-4 rounded-xl border border-gray-200 border-solid max-w-[401px] min-h-[692px]">
-                                <Divider>Календарь</Divider>
-                                <DatePicker className="w-full"/>
-                                <Divider>Отображаемые колонки</Divider>
-                                <Checkbox.Group
-                                    className="flex justify-around"
-                                    value={checkedList}
-                                    options={columns.map(({key, title}) => ({label: title, value: key}))}
-                                    onChange={(value) => setCheckedList(value)}
-                                />
-                                <Divider>Поиск по наименованию</Divider>
-                                <div className="flex gap-x-2">
-                                    <div
-                                        className="flex gap-4 px-5 py-3 text-sm whitespace-nowrap bg-white rounded border border-solid border-zinc-200 text-stone-400">
-                                        <img loading="lazy"
-                                             src="https://cdn.builder.io/api/v1/image/assets/TEMP/24df31ed478abab21edf594006b9ca1cd0db639191e697296e64ce3778623bb5?apiKey=0e60d26ffe404316aa35b6241738714a&"
-                                             alt="Search Icon" className="shrink-0 w-4 aspect-square"/>
-                                        <input type="text" placeholder="Искать..."
-                                               className="flex-auto my-auto bg-transparent focus:outline-none"/>
-                                    </div>
-                                    <Button className="rounded-md h-11 text-md" type="primary" size="large" >
-                                        Применить
-                                    </Button>
-                                </div>
-                                <div className="flex items-center gap-4 w-full mt-4">
-                                    <section
-                                        className="flex gap-1 cursor-pointer w-full px-2 py-2 text-xs font-medium leading-6 text-center bg-white rounded border border-solid  border-zinc-300 text-zinc-800">
-                                        <img loading="lazy"
-                                             src="https://cdn.builder.io/api/v1/image/assets/TEMP/259641c197a5e63b594c2073eba240f20782c2be3214115da6b068df35671d45?apiKey=0e60d26ffe404316aa35b6241738714a&"
-                                             alt="" className="shrink-0 aspect-square w-[26px]"/>
-                                        <p className="my-auto">По Возрастанию</p>
-                                    </section>
+                        {isSidebarVisible && (
+                            <Sider className="p-10" width="33%" style={siderStyle}>
+                                <div
+                                    className="bg-white mx-auto px-4 rounded-xl py-5 border border-gray-200 border-solid max-w-[401px] min-h-[692px]">
+                                    <form className="flex gap-2 items-center max-w-full">
+                                        <label htmlFor="simple-search" className="sr-only">
+                                            Search
+                                        </label>
+                                        <div className="relative w-full">
+                                            <div
+                                                className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                                                <CgMenuGridO className="text-black" size="18"/>
+                                            </div>
+                                            <input
+                                                type="text"
+                                                value={searchText}
+                                                onChange={e => setSearchText(e.target.value)}
+                                                id="simple-search"
+                                                className=" border border-gray-300 text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:outline-none  block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                                placeholder="Искать..."
+                                                required=""
+                                            />
+                                        </div>
+                                        <Button type="primary" size="large" shape="default"
+                                                icon={<RiSearch2Line className="mx-5" size="20"/>}>
+                                        </Button>
+                                    </form>
+                                    <Divider className="text-white">Параметры таблицы</Divider>
+                                    <Form className="mb-4">
+                                        <Radio.Group className="flex mx-auto justify-center " buttonStyle="solid"
+                                                     size="middle" value={size} onChange={handleSizeChange}>
+                                            <Radio.Button value="large"
+                                                          className="flex items-center max-w-min"><VscListFlat/></Radio.Button>
+                                            <Radio.Button value="middle"
+                                                          className="flex items-center max-w-min"><VscListSelection/></Radio.Button>
+                                            <Radio.Button value="small"
+                                                          className="flex items-center max-w-min"><RxListBullet/></Radio.Button>
+                                        </Radio.Group>
+                                    </Form>
+                                    <Collapse className="border-none" defaultActiveKey="1" accordion>
+                                        <Panel className="border-none" header="Опции таблицы" key="1">
+                                            <Form layout="inline" className="components-table-demo-control-bar">
+                                                <Flex className="flex-col w-full gap-y-3">
+                                                    <Form.Item className="w-full" label="Ограниченный">
+                                                        <Segmented
+                                                            block
+                                                            options={['Нет', 'Да']}
+                                                            value={bordered ? 'Да' : 'Нет'}
+                                                            onChange={(value) => handleBorderChange(value === 'Да')}
+                                                        />
+                                                    </Form.Item>
 
-                                    <section
-                                        className="flex gap-1 w-full px-2 cursor-pointer py-2 text-xs font-medium leading-6 text-center bg-white rounded border border-solid  border-zinc-300 text-zinc-800">
-                                        <img
-                                            loading="lazy"
-                                            src="https://cdn.builder.io/api/v1/image/assets/TEMP/c39e5a4f17fe1f7e1beb64482df9adbf9dfbb132b182f1ea2e5a0352f6d47e59?apiKey=0e60d26ffe404316aa35b6241738714a&"
-                                            className="shrink-0 aspect-square w-[26px]"
-                                            alt=""
-                                        />
-                                        <p className="my-auto">По Убыванию</p>
-                                    </section>
-                                </div>
+                                                    <Form.Item className="w-full" label="Загрузка">
+                                                        <Segmented
+                                                            block
+                                                            options={['Нет', 'Да']}
+                                                            value={loading ? 'Да' : 'Нет'}
+                                                            onChange={(value) => handleLoadingChange(value === 'Да')}
+                                                        />
+                                                    </Form.Item>
+                                                    <Form.Item className="w-full" label="Заголовок">
+                                                        <Segmented
+                                                            block
+                                                            options={['Нет', 'Да']}
+                                                            value={showTitle ? 'Да' : 'Нет'}
+                                                            onChange={(value) => handleTitleChange(value === 'Да')}
+                                                        />
+                                                    </Form.Item>
+                                                    {/*<Form.Item label="Нижний колонтитул">*/}
+                                                    {/*    <Segmented*/}
+                                                    {/*        options={['Нет', 'Да']}*/}
+                                                    {/*        value={showFooter ? 'Да' : 'Нет'}*/}
+                                                    {/*        onChange={(value) => handleFooterChange(value === 'Да')}*/}
+                                                    {/*    />*/}
+                                                    {/*</Form.Item>*/}
+                                                    <Form.Item className="w-full" label="Флажки">
+                                                        <Segmented
+                                                            block
+                                                            options={['Нет', 'Да']}
+                                                            value={!!rowSelection ? 'Да' : 'Нет'}
+                                                            onChange={(value) => handleRowSelectionChange(value === 'Да')}
+                                                        />
+                                                    </Form.Item>
+                                                    <Form.Item className="w-full" label="Фикс. заголовок">
+                                                        <Segmented
+                                                            block
+                                                            options={['Нет', 'Да']}
+                                                            value={!!yScroll ? 'Да' : 'Нет'}
+                                                            onChange={(value) => handleYScrollChange(value === 'Да')}
+                                                        />
+                                                    </Form.Item>
+                                                    {/*<Form.Item label="Имеет данные">*/}
+                                                    {/*    <Segmented*/}
+                                                    {/*        options={['Нет', 'Да']}*/}
+                                                    {/*        value={!!hasData ? 'Да' : 'Нет'}*/}
+                                                    {/*        onChange={(value) => handleDataChange(value === 'Да')}*/}
+                                                    {/*    />*/}
+                                                    {/*</Form.Item>*/}
+                                                    {/*<Form.Item label="Эллипсис">*/}
+                                                    {/*    <Segmented*/}
+                                                    {/*        options={['Нет', 'Да']}*/}
+                                                    {/*        value={!!ellipsis ? 'Да' : 'Нет'}*/}
+                                                    {/*        onChange={(value) => handleEllipsisChange(value === 'Да')}*/}
+                                                    {/*    />*/}
+                                                    {/*</Form.Item>*/}
+                                                </Flex>
+                                            </Form>
+                                        </Panel>
+                                    </Collapse>
 
-                                <Divider>Сдвинуть колонки по желанию</Divider>
-                                <section
-                                    className="flex mt-5 cursor-pointer gap-5 justify-start px-5 py-5 text-xs font-bold whitespace-nowrap bg-white rounded-md border border-solid border-neutral-200 text-zinc-800">
-                                    <img
-                                        loading="lazy"
-                                        src="https://cdn.builder.io/api/v1/image/assets/TEMP/5118e84094a7167a9b0ded5b68ccea8b57df652ad44a8e05297379233e52e765?apiKey=0e60d26ffe404316aa35b6241738714a&"
-                                        alt=""
-                                        className="shrink-0 self-start w-2.5 aspect-[0.56]"
+
+                                    <Pagination
+                                        className="mt-7"
+                                        current={current}
+                                        pageSize={pageSize}
+                                        total={total}
+                                        onChange={(page, pageSize) => {
+                                            setCurrent(page);
+                                            setPageSize(pageSize);
+                                        }}
                                     />
-                                    <p>Наименование</p>
-                                </section>
-                                <section
-                                    className="flex mt-5 cursor-pointer gap-5 justify-start px-5 py-5 text-xs font-bold whitespace-nowrap bg-white rounded-md border border-solid border-neutral-200 text-zinc-800">
-                                    <img
-                                        loading="lazy"
-                                        src="https://cdn.builder.io/api/v1/image/assets/TEMP/5118e84094a7167a9b0ded5b68ccea8b57df652ad44a8e05297379233e52e765?apiKey=0e60d26ffe404316aa35b6241738714a&"
-                                        alt=""
-                                        className="shrink-0 self-start w-2.5 aspect-[0.56]"
-                                    />
-                                    <p>Действие</p>
-                                </section>
-
-                                <Divider>Количество строк и пагинация</Divider>
-                                <Pagination
-                                    className="space-y-3 justify-center flex-col items-center"
-                                    current={tableParams.pagination.current}
-                                    total={tableParams.pagination.total}
-                                    pageSize={tableParams.pagination.pageSize}
-                                    onChange={handlePageChange}
-                                    showSizeChanger
-                                    onShowSizeChange={handlePageChange}
-                                />
-                            </div>
-
-                        </Sider>
+                                </div>
+                            </Sider>
+                        )}
                     </Layout>
                 </Layout>
             </div>

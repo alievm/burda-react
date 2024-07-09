@@ -20,6 +20,8 @@ import {GoChevronDown} from "react-icons/go";
 import {FaUserTie} from "react-icons/fa6";
 import {VscSignOut} from "react-icons/vsc";
 import {RiShutDownLine} from "react-icons/ri";
+import DarkMode from "../components/DarkMode.jsx";
+import {BellIcon} from "@heroicons/react/24/outline/index.js";
 
 const profileMenuItems = [
     {
@@ -37,7 +39,11 @@ const Layout = () => {
     const [openNav, setOpenNav] = React.useState(false);
     const [toggled, setToggled] = useState(false);
     const [isMenuOpen, setIsMenuOpen] = React.useState(false);
+    const [darkMode, setDarkMode] = useState(false);
 
+    const toggleDarkMode = () => {
+        setDarkMode(prevMode => !prevMode);
+    };
     const closeMenu = () => setIsMenuOpen(false);
 
     const handleCollapsedChange = () => {
@@ -63,7 +69,7 @@ const Layout = () => {
            </div>
             <div className="w-full relative">
                 <nav
-                    className="bg-[#012C6E]  sticky  w-full top-0 z-10 h-max max-w-full rounded-none px-4 lg:px-8">
+                    className="bg-main sticky  w-full top-0 z-10 h-max max-w-full rounded-none px-4 lg:px-8">
                     <div className="mx-auto max-w-full px-2 sm:px-6 lg:px-8">
                         <div className="relative flex h-16 items-center justify-end">
                             <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
@@ -107,20 +113,22 @@ const Layout = () => {
                                     placeholder="Искать..."
                                 />
                             </section>
+
                                 <div
                                     className="absolute inset-y-0 right-0 flex gap-x-3 items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
+                                    <DarkMode/>
                                     <Menu placement="bottom-end"
                                           animate={{
                                               mount: {y: 0},
                                               unmount: {y: 25},
                                           }}
                                     >
-                                        <Badge className="bg-[#F7F7F5] text-blue-900 font-semibold" content="0">
+                                        <Badge className="bg-[#F7F7F5] text-black font-semibold" content="0">
                                             <MenuHandler>
 
                                                 <div
                                                     className="w-10 h-10 bg-[#F6F8FA] rounded-lg flex items-center justify-center border border-[#E7E7E7] cursor-pointer group">
-                                                    <img src="/public/norification.svg" />
+                                                    <BellIcon className="h-6 w-6" />
                                                 </div>
                                             </MenuHandler>
 
@@ -130,58 +138,58 @@ const Layout = () => {
                                         </MenuList>
                                     </Menu>
 
-                                    <Menu open={isMenuOpen} handler={setIsMenuOpen} placement="bottom-end">
-                                        <MenuHandler>
-                                            <Button
-                                                variant="text"
-                                                className="flex focus:bg-white active:bg-white bg-white hover:bg-white items-center gap-1 rounded-full py-0.5 pr-2 pl-0.5 lg:ml-auto"
-                                            >
-                                                <Avatar
-                                                    variant="circular"
-                                                    size="sm"
-                                                    alt="tania andrew"
-                                                    className="p-0.5"
-                                                    src="/public/anonym.jpg"
-                                                />
-                                                <GoChevronDown
-                                                    strokeWidth={2.5}
-                                                    className={`h-3 w-3 transition-transform ${
-                                                        isMenuOpen ? "rotate-180" : ""
-                                                    }`}
-                                                />
-                                            </Button>
-                                        </MenuHandler>
-                                        <MenuList className="p-1">
-                                            <SwitchTheme className="mb-3" checkedChildren="Светлая" unCheckedChildren="Темная" defaultChecked />
-                                            {profileMenuItems.map(({ label, icon }, key) => {
-                                                const isLastItem = key === profileMenuItems.length - 1;
-                                                return (
-                                                   <>
-                                                       <MenuItem
-                                                           key={label}
-                                                           onClick={closeMenu}
-                                                           className={`flex items-center gap-2 rounded ${
-                                                               isLastItem
-                                                                   ? "hover:bg-red-500/10 focus:bg-red-500/10 active:bg-red-500/10"
-                                                                   : ""
-                                                           }`}
-                                                       >
-                                                           {React.createElement(icon, {
-                                                               className: `h-4 w-4 ${isLastItem ? "text-red-500" : ""}`,
-                                                           })}
-                                                           <Typography
-                                                               as="span"
-                                                               variant="small"
-                                                               className="font-normal"
-                                                               color={isLastItem ? "red" : "inherit"}
-                                                           >
-                                                               {label}
-                                                           </Typography>
-                                                       </MenuItem></>
-                                                );
-                                            })}
-                                        </MenuList>
-                                    </Menu>
+                                    {/*<Menu open={isMenuOpen} handler={setIsMenuOpen} placement="bottom-end">*/}
+                                    {/*    <MenuHandler>*/}
+                                    {/*        <Button*/}
+                                    {/*            variant="text"*/}
+                                    {/*            className="flex focus:bg-white active:bg-white bg-white hover:bg-white items-center gap-1 rounded-full py-0.5 pr-2 pl-0.5 lg:ml-auto"*/}
+                                    {/*        >*/}
+                                    {/*            <Avatar*/}
+                                    {/*                variant="circular"*/}
+                                    {/*                size="sm"*/}
+                                    {/*                alt="tania andrew"*/}
+                                    {/*                className="p-0.5"*/}
+                                    {/*                src="/public/anonym.jpg"*/}
+                                    {/*            />*/}
+                                    {/*            <GoChevronDown*/}
+                                    {/*                strokeWidth={2.5}*/}
+                                    {/*                className={`h-3 w-3 transition-transform ${*/}
+                                    {/*                    isMenuOpen ? "rotate-180" : ""*/}
+                                    {/*                }`}*/}
+                                    {/*            />*/}
+                                    {/*        </Button>*/}
+                                    {/*    </MenuHandler>*/}
+                                    {/*    <MenuList className="p-1">*/}
+                                    {/*        <SwitchTheme className="mb-3" checkedChildren="Светлая" unCheckedChildren="Темная" defaultChecked />*/}
+                                    {/*        {profileMenuItems.map(({ label, icon }, key) => {*/}
+                                    {/*            const isLastItem = key === profileMenuItems.length - 1;*/}
+                                    {/*            return (*/}
+                                    {/*               <>*/}
+                                    {/*                   <MenuItem*/}
+                                    {/*                       key={label}*/}
+                                    {/*                       onClick={closeMenu}*/}
+                                    {/*                       className={`flex items-center gap-2 rounded ${*/}
+                                    {/*                           isLastItem*/}
+                                    {/*                               ? "hover:bg-red-500/10 focus:bg-red-500/10 active:bg-red-500/10"*/}
+                                    {/*                               : ""*/}
+                                    {/*                       }`}*/}
+                                    {/*                   >*/}
+                                    {/*                       {React.createElement(icon, {*/}
+                                    {/*                           className: `h-4 w-4 ${isLastItem ? "text-red-500" : ""}`,*/}
+                                    {/*                       })}*/}
+                                    {/*                       <Typography*/}
+                                    {/*                           as="span"*/}
+                                    {/*                           variant="small"*/}
+                                    {/*                           className="font-normal"*/}
+                                    {/*                           color={isLastItem ? "red" : "inherit"}*/}
+                                    {/*                       >*/}
+                                    {/*                           {label}*/}
+                                    {/*                       </Typography>*/}
+                                    {/*                   </MenuItem></>*/}
+                                    {/*            );*/}
+                                    {/*        })}*/}
+                                    {/*    </MenuList>*/}
+                                    {/*</Menu>*/}
                                 </div>
 
                         </div>

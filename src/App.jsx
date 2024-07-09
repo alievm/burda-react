@@ -23,6 +23,7 @@ import Types from "./views/Directory/Finance/Types/Types.jsx";
 import Agent from "./views/Directory/Finance/Agent/Agent.jsx";
 import AccountName from "./views/Directory/Finance/AccountName/AccountName.jsx";
 import CreateSource from "./views/Directory/Finance/Sources/CreateSource.jsx";
+import RawArrival from "./views/Warehouse/RawArrival.jsx";
 
 const App = () => {
     return (
@@ -42,13 +43,14 @@ const App = () => {
             <Route path="/types" element={<Types/>} />
             <Route path="/city" element={<City/>} />
             <Route path="/agent" element={<Agent/>} />
-            <Route path="/account-name" element={<AccountName/>} />
+            <Route path="/account-name" element={<AccountName/>}/>
             <Route path="/sources" element={<CreateSource/>} />
             <Route path="/all-sources" element={<AllSources/>} />
             <Route path="/consumption" element={<CreateConsumption/>} />
             <Route path="/sub-consumption" element={<AllConsumption/>} />
             <Route path="/receiver-category" element={<ReceiverCategory/>} />
             <Route path="/warehouse" element={<WareHouse/>} />
+            <Route path="/raw-arrival" element={<RawArrival/>} />
             <Route path="*" element={<NotFoundPage/>} />
             </Route>
         </Routes>

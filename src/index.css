@@ -5,21 +5,36 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
 
 :root {
-    --primaryColor: #012C6E;
-    --primaryHoverColor: #001f55;
+    --primaryColor: #092332;
+    --primaryHoverColor: #081b29;
+    /*--primaryColor: #012C6E;*/
+    /*--primaryHoverColor: #001f55;*/
+    --backgroundWhite: #fff;
+    --textWhite: #FFFFFF;
+    --textBlack: #000;
+    --lineColor: #ccc;
 }
 
 * {
     font-family: "Roboto", sans-serif !important;
 }
 
+
+
 .title, .title-section {
     color: var(--primaryColor);
 }
 
+.bg-main {
+    background-color: var(--primaryColor);
+}
 
 :where(.css-dev-only-do-not-override-j9bb5n).ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled)::before {
     background-color: var(--primaryColor) !important;
+}
+
+.ant-layout-content {
+    background-color: var(--backgroundWhite) !important;
 }
 
 .ant-radio-button-checked {
@@ -29,19 +44,19 @@
 }
 
 .ant-radio-button-checked:hover {
-    color: #000 !important;
+    color: var(--textBlack) !important;
 }
 
 .ant-radio-button-wrapper-checked {
-    background-color: #fff;
+    background-color: var(--backgroundWhite);
 }
 
 :where(.css-dev-only-do-not-override-1n5na2).ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled)::before {
-    background-color: #fff;
+    background-color: var(--backgroundWhite);
 }
 
 .ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled):hover::before {
-    background-color: #fff;
+    background-color: var(--backgroundWhite);
 }
 
 .ant-btn-primary, .ant-radio-button-checked, .ant-radio-button-wrapper-checked {
@@ -54,7 +69,7 @@
 }
 
 .ant-radio-button-wrapper-checked span {
-    color: #fff!important;
+    color: var(--textWhite) !important;
 }
 
 .ant-radio-button-checked {
@@ -62,7 +77,7 @@
 }
 
 .css-1sdt58x {
-border-right-width: 0px !important;
+    border-right-width: 0px !important;
 }
 
 .card-currency {
@@ -70,7 +85,7 @@ border-right-width: 0px !important;
 }
 
 .calendar-section::-webkit-scrollbar {
-width: 0px;
+    width: 0px;
 }
 .calendar-section {
     scrollbar-width: none;
@@ -81,27 +96,27 @@ width: 0px;
     top: 0 !important;
 }
 
-.ps-sidebar-container{
-height: 100vh !important;
-font-size: 14px;
-background: url('./assets/sidebar-bg.svg'), var(--primaryColor) !important;
-color: #fff;
+.ps-sidebar-container {
+    height: 100vh !important;
+    font-size: 14px;
+    background: url('./assets/sidebar-bg.svg'), var(--primaryColor) !important;
+    color: var(--textWhite);
 }
 
 .css-1d00spe {
- border-right-width: 0px !important;
+    border-right-width: 0px !important;
 }
 
 .ps-menu-button:hover {
-background-color: var(--primaryHoverColor) !important;
+    background-color: var(--primaryHoverColor) !important;
 }
 
 .ps-submenu-content {
-background-color: var(--primaryColor) !important;
+    background-color: var(--primaryColor) !important;
 }
 
 .ps-sidebar-container::-webkit-scrollbar {
-width: 0px;
+    width: 0px;
 }
 
 .ps-sidebar-container {
@@ -109,11 +124,12 @@ width: 0px;
 }
 
 .ps-sidebar-container::-webkit-scrollbar-thumb {
-background: #fff;
-border-radius: 0px;
+    background: var(--textWhite);
+    border-radius: 0px;
 }
+
 .ps-sidebar-container::-webkit-scrollbar-track {
-background: #FFFFFF;
+    background: var(--textWhite);
 }
 
 
@@ -139,7 +155,7 @@ background: #FFFFFF;
     left: 0;
     bottom: 0;
     width: 1px;
-    background-color: #ccc; /* Цвет линии */
+    background-color: var(--lineColor); /* Цвет линии */
 }
 
 .pro-sidebar .pro-sub-menu > .pro-inner-list-item:not(:last-child):before {
@@ -149,7 +165,7 @@ background: #FFFFFF;
     left: -20px;
     height: 50%;
     width: 20px;
-    border-top: 1px solid #ccc; /* Цвет линии */
+    border-top: 1px solid var(--lineColor); /* Цвет линии */
 }
 
 .pro-sidebar .pro-sub-menu > .pro-inner-list-item:last-child:before {
@@ -159,8 +175,6 @@ background: #FFFFFF;
     left: -20px;
     height: 50%;
     width: 20px;
-    border-top: 1px solid #ccc; /* Цвет линии */
-    border-bottom: 1px solid #ccc; /* Цвет линии */
+    border-top: 1px solid var(--lineColor); /* Цвет линии */
+    border-bottom: 1px solid var(--lineColor); /* Цвет линии */
 }
-
-

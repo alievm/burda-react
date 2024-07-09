@@ -46,10 +46,13 @@ import {RiSearch2Line} from "react-icons/ri";
 import {AiFillSetting} from "react-icons/ai";
 import {VscListFlat, VscListSelection} from "react-icons/vsc";
 import {RxListBullet} from "react-icons/rx";
+import {EyeIcon, EyeSlashIcon, FolderPlusIcon} from "@heroicons/react/24/solid/index.js";
 const { Panel } = Collapse;
 
 const Season = () => {
     const [dataSource, setDataSource] = useState([]);
+    const [filteredDataSource, setFilteredDataSource] = useState([]);
+    const [isSidebarVisible, setIsSidebarVisible] = useState(true);
     const [searchText, setSearchText] = useState('');
     const [searchedColumn, setSearchedColumn] = useState('');
     const [newCategoryTitle, setNewCategoryTitle] = useState('');
@@ -81,6 +84,14 @@ const Season = () => {
         fetchMainCategoriesData();
     }, []);
 
+    useEffect(() => {
+        // Фильтруем данные при изменении текста поиска
+        const filtered = dataSource.filter(item =>
+            item.title.toLowerCase().includes(searchText.toLowerCase())
+        );
+        setFilteredDataSource(filtered);
+    }, [searchText, dataSource]);
+
     const fetchMainCategoriesData = async () => {
         setLoading(true); // Set loading to true when fetching starts
         try {
@@ -99,6 +110,7 @@ const Season = () => {
 
                 // Update the state with the formatted categories
                 setDataSource(formattedCategories);
+                setFilteredDataSource(formattedCategories)
             } else {
                 console.error('Error: Expected an array of categories, got:', response);
                 // Optionally, you can display a notification or set an error state here
@@ -308,17 +320,6 @@ const Season = () => {
         try {
             const newCategory = await createSeason(newCategoryTitle, newCategoryDesc);
 
-            setDataSource(prevState => [
-                {
-                    key: newCategory.id,
-                    title: newCategory.title,
-                    desc: newCategory.desc,
-                    created_at: newCategory.created_at,
-                    updated_at: newCategory.updated_at,
-                },
-                ...prevState,
-            ]);
-
             fetchMainCategoriesData();
             setIsModalVisible(false);
 
@@ -365,7 +366,7 @@ const Season = () => {
 
     const onDragEnd = ({ active, over }) => {
         if (active.id !== over?.id) {
-            setDataSource((prevState) => {
+            setFilteredDataSource((prevState) => {
                 const activeIndex = prevState.findIndex((record) => record.key === active?.id);
                 const overIndex = prevState.findIndex((record) => record.key === over?.id);
                 return arrayMove(prevState, activeIndex, overIndex);
@@ -398,41 +399,20 @@ const Season = () => {
                         </div>
                         <Flex vertical gap="middle" className="p-3 rounded-lg border">
                             <Flex className="items-center">
-                                <div style={{backgroundColor: 'rgb(241 243 245)'}}
-                                     className="p-2 mr-4 max-w-min title rounded-lg">
+                                <div style={{backgroundColor: 'rgb(241 243 245)'}} className="p-2 mr-4 max-w-min title rounded-lg">
                                     <AiFillSetting size="25"/>
                                 </div>
                                 Конфигурация таблицы
                             </Flex>
 
 
-                            <Segmented
-                                className="max-w-min"
-                                options={[
-                                    {label: 'Сбросить', value: undefined},
-                                    {label: 'Прокрутка', value: 'scroll'},
-                                    {label: 'Фиксированные столбцы', value: 'fixed'}
-                                ]}
-                                value={xScroll}
-                                onChange={handleXScrollChange}
-                            />
-
-                            <Segmented
-                                className="max-w-min"
-                                options={[
-                                    {label: 'Сбросить', value: undefined},
-                                    {label: 'Фиксированный', value: 'fixed'}
-                                ]}
-                                value={tableLayout}
-                                onChange={handleTableLayoutChange}
-                            />
-
+                            <DatePicker placeholder="Искать по дате" className="w-full py-2"/>
                             <Segmented
                                 options={[
-                                    {label: 'Нижний левый', value: 'bottomLeft'},
-                                    {label: 'Нижний центр', value: 'bottomCenter'},
-                                    {label: 'Нижний правый', value: 'bottomRight'},
-                                    {label: 'Ничто...', value: 'none'}
+                                    { label: 'Нижний левый', value: 'bottomLeft' },
+                                    { label: 'Нижний центр', value: 'bottomCenter' },
+                                    { label: 'Нижний правый', value: 'bottomRight' },
+                                    { label: 'Ничто...', value: 'none' }
                                 ]}
                                 value={bottom}
                                 onChange={(value) => setBottom(value)}
@@ -454,7 +434,17 @@ const Season = () => {
                                 Таблица данных
                             </div>
                         </div>
-                        <Button type="primary" onClick={handleCreateCategory}>
+
+                        <Button
+                            size="large"
+                            className="flex items-center text-sm"
+                            icon={isSidebarVisible ? <EyeIcon className="h-5 w-6" /> : <EyeSlashIcon className="h-5 w-6" />}
+                            type="primary"
+                            onClick={() => setIsSidebarVisible(!isSidebarVisible)}
+                        >
+                            {isSidebarVisible ? 'Скрыть панель' : 'Показать панель'}
+                        </Button>
+                        <Button  className="items-center text-sm flex" icon={<FolderPlusIcon className="h-5 w-6" />} size="large" type="primary" onClick={handleCreateCategory}>
                             Создать новый сезон
                         </Button>
 
@@ -498,14 +488,14 @@ const Season = () => {
                     <Layout>
                         <Content style={contentStyle}>
                             <DndContext modifiers={[restrictToVerticalAxis]} onDragEnd={onDragEnd}>
-                                <SortableContext items={dataSource.map((i) => i.key)}
+                                <SortableContext items={filteredDataSource.map((i) => i.key)}
                                                  strategy={verticalListSortingStrategy}>
                                     <Table
                                         {...tableProps}
                                         pagination={false}
                                         onChange={handleTableChange}
                                         scroll={scroll}
-                                        loading={{indicator: <div><Spin/></div>, spinning: !dataSource}}
+                                        loading={{indicator: <div><Spin/></div>, spinning: !filteredDataSource}}
                                         rowKey="key"
                                         components={{
                                             body: {
@@ -513,136 +503,131 @@ const Season = () => {
                                             },
                                         }}
                                         columns={columns}
-                                        dataSource={hasData ? dataSource : []}
+                                        dataSource={hasData ? filteredDataSource : []}
                                     />
                                 </SortableContext>
                             </DndContext>
                         </Content>
-                        <Sider className="p-10" width="33%" style={siderStyle}>
-                            <div
-                                className="bg-white mx-auto px-4 rounded-xl border border-gray-200 border-solid max-w-[401px] min-h-[692px]">
-                                <Form className="mb-4" layout="inline">
-                                    <DatePicker placeholder="Искать по дате" className="w-full py-2"/>
-                                </Form>
-                                <form className="flex gap-2 items-center max-w-full">
-                                    <label htmlFor="simple-search" className="sr-only">
-                                        Search
-                                    </label>
-                                    <div className="relative w-full">
-                                        <div
-                                            className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
-                                            <CgMenuGridO className="text-black" size="18"/>
+                        {isSidebarVisible && (
+                            <Sider className="p-10" width="33%" style={siderStyle}>
+                                <div
+                                    className="bg-white mx-auto px-4 rounded-xl py-5 border border-gray-200 border-solid max-w-[401px] min-h-[692px]">
+                                    <form className="flex gap-2 items-center max-w-full">
+                                        <label htmlFor="simple-search" className="sr-only">
+                                            Search
+                                        </label>
+                                        <div className="relative w-full">
+                                            <div
+                                                className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                                                <CgMenuGridO className="text-black" size="18"/>
+                                            </div>
+                                            <input
+                                                type="text"
+                                                value={searchText}
+                                                onChange={e => setSearchText(e.target.value)}
+                                                id="simple-search"
+                                                className=" border border-gray-300 text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:outline-none  block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                                placeholder="Искать..."
+                                                required=""
+                                            />
                                         </div>
-                                        <input
-                                            type="text"
-                                            id="simple-search"
-                                            className=" border border-gray-300 text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:outline-none  block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                            placeholder="Искать..."
-                                            required=""
-                                        />
-                                    </div>
-                                    <Button type="primary" size="large" shape="default"
-                                            icon={<RiSearch2Line className="mx-5" size="20"/>}>
-                                    </Button>
-                                </form>
-                                <Divider className="text-white">Параметры таблицы</Divider>
-                                <Form className="mb-4">
-                                    <Radio.Group className="flex mx-auto justify-center " buttonStyle="solid"
-                                                 value={size} onChange={handleSizeChange}>
-                                        <Radio.Button value="large"
-                                                      className="flex items-center max-w-min"><VscListFlat/></Radio.Button>
-                                        <Radio.Button value="middle"
-                                                      className="flex items-center max-w-min"><VscListSelection/></Radio.Button>
-                                        <Radio.Button value="small"
-                                                      className="flex items-center max-w-min"><RxListBullet/></Radio.Button>
-                                    </Radio.Group>
-                                </Form>
-                                <Collapse className="border-none" defaultActiveKey="1" accordion>
-                                    <Panel className="border-none" header="Опции таблицы" key="1">
-                                        <Form layout="inline" className="components-table-demo-control-bar">
-                                            <Flex className="flex-col gap-y-3">
-                                                <Form.Item label="Ограниченный">
-                                                    <Segmented
-                                                        options={['Нет', 'Да']}
-                                                        value={bordered ? 'Да' : 'Нет'}
-                                                        onChange={(value) => handleBorderChange(value === 'Да')}
-                                                    />
-                                                </Form.Item>
+                                        <Button  type="primary" size="large" shape="default"
+                                                 icon={<RiSearch2Line className="mx-5" size="20"/>}>
+                                        </Button>
+                                    </form>
+                                    <Divider className="text-white">Параметры таблицы</Divider>
+                                    <Form className="mb-4">
+                                        <Radio.Group className="flex mx-auto justify-center " buttonStyle="solid"  size="middle" value={size} onChange={handleSizeChange}>
+                                            <Radio.Button value="large" className="flex items-center max-w-min"><VscListFlat/></Radio.Button>
+                                            <Radio.Button value="middle" className="flex items-center max-w-min"><VscListSelection/></Radio.Button>
+                                            <Radio.Button value="small" className="flex items-center max-w-min"><RxListBullet/></Radio.Button>
+                                        </Radio.Group>
+                                    </Form>
+                                    <Collapse className="border-none" defaultActiveKey="1" accordion>
+                                        <Panel className="border-none" header="Опции таблицы" key="1">
+                                            <Form layout="inline" className="components-table-demo-control-bar">
+                                                <Flex className="flex-col w-full gap-y-3">
+                                                    <Form.Item className="w-full" label="Ограниченный">
+                                                        <Segmented
+                                                            block
+                                                            options={['Нет', 'Да']}
+                                                            value={bordered ? 'Да' : 'Нет'}
+                                                            onChange={(value) => handleBorderChange(value === 'Да')}
+                                                        />
+                                                    </Form.Item>
 
-                                                <Form.Item label="Загрузка">
-                                                    <Segmented
-                                                        options={['Нет', 'Да']}
-                                                        value={loading ? 'Да' : 'Нет'}
-                                                        onChange={(value) => handleLoadingChange(value === 'Да')}
-                                                    />
-                                                </Form.Item>
-                                                {/*<Form.Item label="Заголовок">*/}
-                                                {/*    <Segmented*/}
-                                                {/*        options={['Нет', 'Да']}*/}
-                                                {/*        value={showTitle ? 'Да' : 'Нет'}*/}
-                                                {/*        onChange={(value) => handleTitleChange(value === 'Да')}*/}
-                                                {/*    />*/}
-                                                {/*</Form.Item>*/}
-                                                {/*<Form.Item label="Заголовок столбца">*/}
-                                                {/*    <Segmented*/}
-                                                {/*        options={['Нет', 'Да']}*/}
-                                                {/*        value={showHeader ? 'Да' : 'Нет'}*/}
-                                                {/*        onChange={(value) => handleHeaderChange(value === 'Да')}*/}
-                                                {/*    />*/}
-                                                {/*</Form.Item>*/}
-                                                {/*<Form.Item label="Нижний колонтитул">*/}
-                                                {/*    <Segmented*/}
-                                                {/*        options={['Нет', 'Да']}*/}
-                                                {/*        value={showFooter ? 'Да' : 'Нет'}*/}
-                                                {/*        onChange={(value) => handleFooterChange(value === 'Да')}*/}
-                                                {/*    />*/}
-                                                {/*</Form.Item>*/}
-                                                <Form.Item label="Флажки">
-                                                    <Segmented
-                                                        options={['Нет', 'Да']}
-                                                        value={!!rowSelection ? 'Да' : 'Нет'}
-                                                        onChange={(value) => handleRowSelectionChange(value === 'Да')}
-                                                    />
-                                                </Form.Item>
-                                                <Form.Item label="Фикс. заголовок">
-                                                    <Segmented
-                                                        options={['Нет', 'Да']}
-                                                        value={!!yScroll ? 'Да' : 'Нет'}
-                                                        onChange={(value) => handleYScrollChange(value === 'Да')}
-                                                    />
-                                                </Form.Item>
-                                                {/*<Form.Item label="Имеет данные">*/}
-                                                {/*    <Segmented*/}
-                                                {/*        options={['Нет', 'Да']}*/}
-                                                {/*        value={!!hasData ? 'Да' : 'Нет'}*/}
-                                                {/*        onChange={(value) => handleDataChange(value === 'Да')}*/}
-                                                {/*    />*/}
-                                                {/*</Form.Item>*/}
-                                                {/*<Form.Item label="Эллипсис">*/}
-                                                {/*    <Segmented*/}
-                                                {/*        options={['Нет', 'Да']}*/}
-                                                {/*        value={!!ellipsis ? 'Да' : 'Нет'}*/}
-                                                {/*        onChange={(value) => handleEllipsisChange(value === 'Да')}*/}
-                                                {/*    />*/}
-                                                {/*</Form.Item>*/}
-                                            </Flex>
-                                        </Form>
-                                    </Panel>
-                                </Collapse>
+                                                    <Form.Item className="w-full" label="Загрузка">
+                                                        <Segmented
+                                                            block
+                                                            options={['Нет', 'Да']}
+                                                            value={loading ? 'Да' : 'Нет'}
+                                                            onChange={(value) => handleLoadingChange(value === 'Да')}
+                                                        />
+                                                    </Form.Item>
+                                                    <Form.Item className="w-full" label="Заголовок">
+                                                        <Segmented
+                                                            block
+                                                            options={['Нет', 'Да']}
+                                                            value={showTitle ? 'Да' : 'Нет'}
+                                                            onChange={(value) => handleTitleChange(value === 'Да')}
+                                                        />
+                                                    </Form.Item>
+                                                    {/*<Form.Item label="Нижний колонтитул">*/}
+                                                    {/*    <Segmented*/}
+                                                    {/*        options={['Нет', 'Да']}*/}
+                                                    {/*        value={showFooter ? 'Да' : 'Нет'}*/}
+                                                    {/*        onChange={(value) => handleFooterChange(value === 'Да')}*/}
+                                                    {/*    />*/}
+                                                    {/*</Form.Item>*/}
+                                                    <Form.Item className="w-full" label="Флажки">
+                                                        <Segmented
+                                                            block
+                                                            options={['Нет', 'Да']}
+                                                            value={!!rowSelection ? 'Да' : 'Нет'}
+                                                            onChange={(value) => handleRowSelectionChange(value === 'Да')}
+                                                        />
+                                                    </Form.Item>
+                                                    <Form.Item className="w-full" label="Фикс. заголовок">
+                                                        <Segmented
+                                                            block
+                                                            options={['Нет', 'Да']}
+                                                            value={!!yScroll ? 'Да' : 'Нет'}
+                                                            onChange={(value) => handleYScrollChange(value === 'Да')}
+                                                        />
+                                                    </Form.Item>
+                                                    {/*<Form.Item label="Имеет данные">*/}
+                                                    {/*    <Segmented*/}
+                                                    {/*        options={['Нет', 'Да']}*/}
+                                                    {/*        value={!!hasData ? 'Да' : 'Нет'}*/}
+                                                    {/*        onChange={(value) => handleDataChange(value === 'Да')}*/}
+                                                    {/*    />*/}
+                                                    {/*</Form.Item>*/}
+                                                    {/*<Form.Item label="Эллипсис">*/}
+                                                    {/*    <Segmented*/}
+                                                    {/*        options={['Нет', 'Да']}*/}
+                                                    {/*        value={!!ellipsis ? 'Да' : 'Нет'}*/}
+                                                    {/*        onChange={(value) => handleEllipsisChange(value === 'Да')}*/}
+                                                    {/*    />*/}
+                                                    {/*</Form.Item>*/}
+                                                </Flex>
+                                            </Form>
+                                        </Panel>
+                                    </Collapse>
 
 
-                                <Pagination
-                                    className="mt-7"
-                                    current={current}
-                                    pageSize={pageSize}
-                                    total={total}
-                                    onChange={(page, pageSize) => {
-                                        setCurrent(page);
-                                        setPageSize(pageSize);
-                                    }}
-                                />
-                            </div>
-                        </Sider>
+                                    <Pagination
+                                        className="mt-7"
+                                        current={current}
+                                        pageSize={pageSize}
+                                        total={total}
+                                        onChange={(page, pageSize) => {
+                                            setCurrent(page);
+                                            setPageSize(pageSize);
+                                        }}
+                                    />
+                                </div>
+                            </Sider>
+                        )}
                     </Layout>
                 </Layout>
             </div>

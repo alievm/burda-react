@@ -375,7 +375,7 @@ const Homepage = () => {
                                                 <div className="text-sm">Статистика</div>
                                             </div>
                                             <div
-                                                className="flex justify-center items-center px-3 w-11 h-11 bg-[#012C6E] rounded-md shadow-sm">
+                                                className="flex justify-center items-center px-3 w-11 h-11 bg-main rounded-md shadow-sm">
                                                 <img
                                                     loading="lazy"
                                                     src="https://cdn.builder.io/api/v1/image/assets/TEMP/741155f4680f989c00d90cb084886ba61b702123a198615f6bf3ed3c336741f7?apiKey=0e60d26ffe404316aa35b6241738714a&"
@@ -405,7 +405,7 @@ const Homepage = () => {
                                                 <div className="text-sm">Статистика</div>
                                             </div>
                                             <div
-                                                className="flex justify-center items-center px-3 w-11 h-11 bg-[#012C6E] rounded-md shadow-sm">
+                                                className="flex justify-center items-center px-3 w-11 h-11 bg-main rounded-md shadow-sm">
                                                 <img
                                                     loading="lazy"
                                                     src="https://cdn.builder.io/api/v1/image/assets/TEMP/741155f4680f989c00d90cb084886ba61b702123a198615f6bf3ed3c336741f7?apiKey=0e60d26ffe404316aa35b6241738714a&"
@@ -435,7 +435,7 @@ const Homepage = () => {
                                                 <div className="text-sm">Статистика</div>
                                             </div>
                                             <div
-                                                className="flex justify-center items-center px-3 w-11 h-11 bg-[#012C6E] rounded-md shadow-sm">
+                                                className="flex justify-center items-center px-3 w-11 h-11 bg-main rounded-md shadow-sm">
                                                 <img
                                                     loading="lazy"
                                                     src="https://cdn.builder.io/api/v1/image/assets/TEMP/741155f4680f989c00d90cb084886ba61b702123a198615f6bf3ed3c336741f7?apiKey=0e60d26ffe404316aa35b6241738714a&"

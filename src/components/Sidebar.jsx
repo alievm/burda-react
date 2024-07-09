@@ -1,4 +1,4 @@
-import { Link, NavLink } from 'react-router-dom';
+import {Link, NavLink, useLocation} from 'react-router-dom';
 import {
     Sidebar as ProSidebar,
     Menu,
@@ -31,6 +31,13 @@ const Sidebar = ({
                      handleToggleSidebar,
                      handleCollapsedChange
                  }) => {
+    const location = useLocation();
+
+    const isActive = (path) => {
+        const location = useLocation();
+        return location.pathname === path;
+    };
+
     return (
         <ProSidebar
             className="z-[999] hidden lg:block"
@@ -72,89 +79,87 @@ const Sidebar = ({
             {/* Content */}
 
             <Menu iconShape="circle">
-                <Link to="/">
+                <Link className={isActive('/') ? 'text-yellow-500' : ''}  to="/" >
                 <MenuItem
-                    icon={<RiHomeOfficeFill size={20}/>}
+                    icon={<RiHomeOfficeFill className={isActive('/') ? 'text-yellow-500' : ''} size={20}/>}
                 >
                     Главная страница
                 </MenuItem>
                 </Link>
-                <MenuItem icon={<PiChartLineUpFill size={20}/>}>
-                    Аналитика <Link to="/components"/>
+                <MenuItem icon={<PiChartLineUpFill className={isActive('/components') ? 'text-yellow-500' : ''} size={20}/>}>
+                    Аналитика <Link className={isActive('/components') ? 'text-yellow-500' : ''} to="/components"/>
                 </MenuItem>
-                <SubMenu
-                    label="Справочник"
-                    icon={<HiClipboardDocument size={20}/>}
-                >
+                <SubMenu label={<div className={isActive('/main-section') || isActive('/title-section') || isActive('/category-section') || isActive('/view-section') || isActive('/unit-section') || isActive('/size') || isActive('/density') || isActive('/season') || isActive('/width') ? 'text-yellow-500' : ''}>Справочник</div>} icon={<HiClipboardDocument size="20"
+                                                                                   className={isActive('/main-section') || isActive('/title-section') || isActive('/category-section') || isActive('/view-section') || isActive('/unit-section') || isActive('/size') || isActive('/density') || isActive('/season') || isActive('/width') ? 'text-yellow-500' : ''} />} size={20} >
                     <SubMenu label="Сырье">
-                        <Link to="/main-section">
+                        <Link  className={isActive('/main-section') ? 'text-yellow-500' : ''} to="/main-section">
                         <MenuItem>Основной раздел</MenuItem>
                         </Link>
-                        <Link to="/title-section">
+                        <Link className={isActive('/title-section') ? 'text-yellow-500' : ''} to="/title-section">
                         <MenuItem>Наименования</MenuItem>
                         </Link>
-                        <Link to="/category-section">
+                        <Link className={isActive('/category-section') ? 'text-yellow-500' : ''} to="/category-section">
                         <MenuItem>Категория</MenuItem>
                         </Link>
-                        <Link to="/view-section">
+                        <Link className={isActive('/view-section') ? 'text-yellow-500' : ''} to="/view-section">
                         <MenuItem>Вид</MenuItem>
                         </Link>
-                        <Link to="/unit-section">
+                        <Link className={isActive('/unit-section') ? 'text-yellow-500' : ''} to="/unit-section">
                         <MenuItem>Единица измерения</MenuItem>
                         </Link>
-                        <Link to="/size">
+                        <Link className={isActive('/size') ? 'text-yellow-500' : ''} to="/size">
                         <MenuItem>Размер</MenuItem>
                         </Link>
-                        <Link to="/density">
+                        <Link className={isActive('/density') ? 'text-yellow-500' : ''} to="/density">
                         <MenuItem>Плотность</MenuItem>
                         </Link>
-                        <Link to="/season">
+                        <Link className={isActive('/season') ? 'text-yellow-500' : ''} to="/season">
                         <MenuItem>Сезон</MenuItem>
                         </Link>
-                        <Link to="/width">
+                        <Link className={isActive('/width') ? 'text-yellow-500' : ''} to="/width">
                         <MenuItem>Ширина</MenuItem>
                         </Link>
                     </SubMenu>
                     <SubMenu label="Финансы">
                         <SubMenu label="Создание счета">
-                        <Link to="/currency">
+                        <Link className={isActive('/currency') ? 'text-yellow-500' : ''} to="/currency">
                             <MenuItem>Валюта</MenuItem>
                             </Link>
-                            <Link to="/city">
+                            <Link className={isActive('/city') ? 'text-yellow-500' : ''} to="/city">
                             <MenuItem>Город</MenuItem>
                             </Link>
-                            <Link to="/types">
+                            <Link className={isActive('/types') ? 'text-yellow-500' : ''} to="/types">
                             <MenuItem>Типы</MenuItem>
                             </Link>
-                            <Link to="/agent">
+                            <Link className={isActive('/agent') ? 'text-yellow-500' : ''} to="/agent">
                             <MenuItem>Субъект</MenuItem>
                             </Link>
-                            <Link to="/account-name">
+                            <Link className={isActive('/account-name') ? 'text-yellow-500' : ''} to="/account-name">
                             <MenuItem>Название номера счета</MenuItem>
                             </Link>
                         </SubMenu>
                         <SubMenu label="Создание источника">
-                        <Link to="/sources">
+                        <Link className={isActive('/sources') ? 'text-yellow-500' : ''} to="/sources">
                             <MenuItem>Создать источники</MenuItem>
                             </Link>
-                            <Link to="/all-sources">
+                            <Link className={isActive('/all-sources') ? 'text-yellow-500' : ''} to="/all-sources">
                             <MenuItem>Все источники</MenuItem>
                             </Link>
                         </SubMenu>
                     </SubMenu>
                     <SubMenu label="Расходный субъект">
-                    <Link to="/consumption">
+                    <Link className={isActive('/consumption') ? 'text-yellow-500' : ''} to="/consumption">
                         <MenuItem>Создать субъект</MenuItem>
                         </Link>
-                        <Link to="/sub-consumption">
+                        <Link className={isActive('/sub-consumption') ? 'text-yellow-500' : ''} to="/sub-consumption">
                         <MenuItem>Создать суб субъект</MenuItem>
                         </Link>
                     </SubMenu>
-                    <Link to="/receiver-category">
+                    <Link className={isActive('/receiver-category') ? 'text-yellow-500' : ''} to="/receiver-category">
                     <MenuItem>Категория получателя</MenuItem>
                     </Link>
                     <MenuItem>Создание категории</MenuItem>
-                    <Link to="/warehouse">
+                    <Link className={isActive('/warehouse') ? 'text-yellow-500' : ''} to="/warehouse">
                     <MenuItem>Склады</MenuItem>
                     </Link>
                 </SubMenu>
@@ -227,7 +232,7 @@ const Sidebar = ({
                     <div className="text-base tracking-normal leading-6">Call Centre</div>
                     <div className="mt-1.5 font-medium leading-[129%]">+998 90 909 90 90</div>
                     <Button
-                        className="flex bg-[#012C6E] gap-1.5 justify-center items-center py-3 pr-6 pl-5 mt-5 text-white rounded-md shadow-lg leading-[130%]">
+                        className="flex bg-main gap-1.5 justify-center items-center py-3 pr-6 pl-5 mt-5 text-white rounded-md shadow-lg leading-[130%]">
                         <BsFillTelephoneForwardFill size="13" />  <div className="font-medium capitalize">Позвонить</div>
                     </Button>
                 </div>
