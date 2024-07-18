@@ -24,6 +24,8 @@ import Agent from "./views/Directory/Finance/Agent/Agent.jsx";
 import AccountName from "./views/Directory/Finance/AccountName/AccountName.jsx";
 import CreateSource from "./views/Directory/Finance/Sources/CreateSource.jsx";
 import RawArrival from "./views/Warehouse/RawArrival.jsx";
+import RawMaterialsWithZeroQuan from "./views/Warehouse/RawMaterialsWithZeroQuan.jsx";
+import RawWarehouse from "./views/Warehouse/Warehouse.jsx";
 
 const App = () => {
     return (
@@ -51,6 +53,8 @@ const App = () => {
             <Route path="/receiver-category" element={<ReceiverCategory/>} />
             <Route path="/warehouse" element={<WareHouse/>} />
             <Route path="/raw-arrival" element={<RawArrival/>} />
+            <Route path="/raw-arrival/raw-material-with-zero-quantity" element={<RawMaterialsWithZeroQuan/>} />
+            <Route path="/raw-arrival/warehouse" element={<RawWarehouse/>} />
             <Route path="*" element={<NotFoundPage/>} />
             </Route>
         </Routes>

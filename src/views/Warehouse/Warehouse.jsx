@@ -8,7 +8,7 @@ import {
     InputNumber,
     Mentions,
     Select,
-    TreeSelect, Typography,
+    TreeSelect, Typography, Tabs, Segmented,
 } from "antd";
 import {Header} from "antd/es/layout/layout.js";
 import {Content, Footer} from "antd/es/layout/layout";
@@ -38,7 +38,9 @@ const formItemLayout = {
     },
 };
 
-const RawArrival = () => {
+
+
+const RawWarehouse = () => {
     return (
         <div>
             <Layout className="h-[65vh]">
@@ -49,8 +51,8 @@ const RawArrival = () => {
 
                     <Content className="px-10 border mx-10 rounded-xl">
                         <div
-                            className="text-xl my-5 title-section font-extrabold tracking-normal text-sky-900 max-md:max-w-full">
-                            Приход сырья
+                            className=" my-5 title-section font-semibold  text-sky-900 max-md:max-w-full">
+                            <Segmented className="h-10 text-md items-center" options={['Склад', 'Возврат']} block />
                         </div>
                         <Form
                             layout="vertical"
@@ -145,11 +147,13 @@ const RawArrival = () => {
                         </div>
                         <Form layout="vertical">
                             <Form.Item
+                                required
                                 name="Выберите дату"
                                 label="Выберите дату">
                                 <DatePicker className="w-full py-3 mb-2"/>
                             </Form.Item>
                             <Form.Item
+                                required
                                 name="Выберите валюту"
                                 label="Выберите валюту">
                                 <TreeSelect  suffixIcon={<MdCurrencyExchange  className="h-5 w-5" />} className="w-full h-10"/>
@@ -162,4 +166,4 @@ const RawArrival = () => {
     );
 };
 
-export default RawArrival;
+export default RawWarehouse;
