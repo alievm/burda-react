@@ -24,14 +24,6 @@ const DarkModeSwitch = () => {
     const updateTheme = (isDarkMode) => {
         const root = document.documentElement;
         if (isDarkMode) {
-            root.style.setProperty('--primaryColor', '#012C6E');
-            root.style.setProperty('--primaryHoverColor', '#001f55');
-            root.style.setProperty('--backgroundWhite', '#fff');
-            root.style.setProperty('--textWhite', '#FFFFFF');
-            root.style.setProperty('--textBlack', '#fff');
-            root.style.setProperty('--lineColor', '#888');
-            root.style.setProperty('--linkActive', '#000');
-        } else {
             // root.style.setProperty('--primaryColor', '#121212');
             // root.style.setProperty('--primaryHoverColor', '#0e0e0e');
             root.style.setProperty('--primaryColor', '#092332');
@@ -40,6 +32,15 @@ const DarkModeSwitch = () => {
             root.style.setProperty('--textWhite', '#FFFFFF');
             root.style.setProperty('--textBlack', '#000');
             root.style.setProperty('--lineColor', '#ddd');
+        } else {
+            root.style.setProperty('--primaryColor', '#002361');
+            root.style.setProperty('--primaryHoverColor', '#001f55');
+            root.style.setProperty('--backgroundWhite', '#fff');
+            root.style.setProperty('--textWhite', '#FFFFFF');
+            root.style.setProperty('--textBlack', '#fff');
+            root.style.setProperty('--lineColor', '#888');
+            root.style.setProperty('--linkActive', '#000');
+
         }
     };
 

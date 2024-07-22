@@ -2,23 +2,53 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+@font-face {
+    font-family: grapenuts;
+    src: url(./assets/MabryPro.ttf);
+}
 
 :root {
-    --primaryColor: #092332;
-    --primaryHoverColor: #081b29;
+    --primaryColor: #002361;
+    --primaryHoverColor: #001f55;
     /*--primaryColor: #012C6E;*/
     /*--primaryHoverColor: #001f55;*/
     --backgroundWhite: #fff;
     --textWhite: #FFFFFF;
     --textBlack: #000;
     --lineColor: #ccc;
+    --color-light: rgb(203 213 225);
+    --color-mid: rgb(51 65 85);
+    --color-dark: rgb(71 85 105);
 }
 
 * {
-    font-family: "Roboto", sans-serif !important;
+    font-family: "Inter Tight", sans-serif !important;
 }
 
+
+
+
+
+.bg-secondary {
+    background: rgb(243, 246, 250);
+}
+
+.ant-segmented-item-label, .ant-form-item-label, .ant-picker-input:placeholder-shown, .ant-collapse-header-text, .ant-select-selection-item  {
+    font-weight: 700 !important;
+}
+
+.ant-table-cell {
+    font-weight: 500;
+}
+
+.custom-segmented .ant-segmented-item {
+    transition: none;
+}
+
+
+.custom-segmented .ant-segmented-thumb {
+    transition: none;
+}
 
 
 .title, .title-section {
@@ -101,6 +131,13 @@
     font-size: 14px;
     background: url('./assets/sidebar-bg.svg'), var(--primaryColor) !important;
     color: var(--textWhite);
+}
+
+.ps-menu-icon {
+    color: var(--primaryColor) !important;
+}
+.ps-menu-label {
+    margin-left: 15px;
 }
 
 .css-1d00spe {

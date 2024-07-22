@@ -39,6 +39,8 @@ import {AiFillSetting, AiOutlineDown} from "react-icons/ai";
 import {VscListFlat, VscListSelection} from "react-icons/vsc";
 import {RxListBullet} from "react-icons/rx";
 import {EyeIcon, EyeSlashIcon, FolderPlusIcon} from "@heroicons/react/24/solid/index.js";
+import {TbLayoutListFilled} from "react-icons/tb";
+import {HiMiniQueueList} from "react-icons/hi2";
 
 const { Panel } = Collapse;
 
@@ -363,7 +365,7 @@ const MainSection = () => {
 
     return (
 
-        <div className="p-7 bg-[#F7F7F5]">
+        <div className="p-7 bg-secondary">
 
 
             <div className="flex flex-col bg-white">
@@ -390,12 +392,16 @@ const MainSection = () => {
                                 <div style={{backgroundColor: 'rgb(241 243 245)'}} className="p-2 mr-4 max-w-min title rounded-lg">
                                     <AiFillSetting size="25"/>
                                 </div>
-                                Конфигурация таблицы
+                                <span className="font-bold text-[#092332]">Конфигурация таблицы</span>
                             </Flex>
 
 
                             <DatePicker placeholder="Искать по дате" className="w-full py-2"/>
                             <Segmented
+                                style={{
+                                    border: '1px solid #ddd',
+                                }}
+                                className="custom-segmented"
                                 options={[
                                     { label: 'Нижний левый', value: 'bottomLeft' },
                                     { label: 'Нижний центр', value: 'bottomCenter' },
@@ -512,8 +518,8 @@ const MainSection = () => {
                                 <Divider className="text-white">Параметры таблицы</Divider>
                                 <Form className="mb-4">
                                     <Radio.Group className="flex mx-auto justify-center " buttonStyle="solid"  size="middle" value={size} onChange={handleSizeChange}>
-                                        <Radio.Button value="large" className="flex items-center max-w-min"><VscListFlat/></Radio.Button>
-                                        <Radio.Button value="middle" className="flex items-center max-w-min"><VscListSelection/></Radio.Button>
+                                        <Radio.Button value="large" className="flex items-center max-w-min"><TbLayoutListFilled/></Radio.Button>
+                                        <Radio.Button value="middle" className="flex items-center max-w-min"><HiMiniQueueList size="20" /></Radio.Button>
                                         <Radio.Button value="small" className="flex items-center max-w-min"><RxListBullet/></Radio.Button>
                                     </Radio.Group>
                                 </Form>
